@@ -1,0 +1,24 @@
+<nav>
+  <div class="container">
+    <!-- logo -->
+    <div class="logo">
+      <img class="firma" src="assets/firma/firma-blanca.png" alt="" srcset="" />
+    </div>
+
+    <!-- buttons -->
+    <div class="buttons-container" [ngClass]="{ desplegar: desplegarStatus }">
+      <div class="buttons">
+        <button id="portfolio" class="btn">portfolio</button>
+        <button id="servicios" class="btn">servicios</button>
+        <button id="formacion" class="btn">formacion</button>
+        <button id="sobre-mi" class="btn">sobre mi</button>
+        <button id="contacto" class="btn">contacto</button>
+      </div>
+    </div>
+
+    <!-- close-icon-menu -->
+    <div (click)="desplegar()" id="close" class="close">
+      <img src="assets/icons/menu.svg" alt="" srcset="" />
+    </div>
+  </div>
+</nav>
