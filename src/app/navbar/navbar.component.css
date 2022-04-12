@@ -68,7 +68,8 @@ button {
 #contacto:hover,
 #servicios:hover,
 #formacion:hover,
-#sobre-mi:hover {
+#sobre-mi:hover,
+.btn-active {
   color: rgb(255, 111, 0);
 }
 

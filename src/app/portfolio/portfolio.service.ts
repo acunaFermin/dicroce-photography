@@ -8,6 +8,7 @@ export class PortfolioService {
   private _items: PortfolioItem[] = [
     {
       titulo: 'Retrato Beauty',
+      link: '/gallery/beauty',
       imagen1: "background-image: url('assets/beauty/_MG_0532-Editar-min.jpg')", ////////////
       imagen2: `background-image: url("assets/beauty/Anto 2-min.jpg");
     background-position-x: 80%;`,
@@ -15,6 +16,7 @@ export class PortfolioService {
     },
     {
       titulo: 'Fine Art',
+      link: '/gallery/fine-art',
       imagen1: `background-image: url('assets/fine-art/Luli C-min.jpg');
       background-position-x: 25%;`,
       imagen2: `background-image: url('assets/fine-art/Luli CMYK-min.jpg')`,
@@ -23,6 +25,7 @@ export class PortfolioService {
     },
     {
       titulo: 'Retrato Personalizado',
+      link: '/gallery/personalizado',
       imagen1: "background-image: url('assets/personalizado/_MG_2329-min.jpg')", ///////////////
       imagen2: `background-image: url('assets/personalizado/IMG_3192-min.jpg');
       background-position-x: 10%;`,

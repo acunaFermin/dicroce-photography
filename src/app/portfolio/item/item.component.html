@@ -1,9 +1,13 @@
 <div class="container">
-  <div class="container-item" *ngFor="let item of items">
+  <div
+    class="container-item"
+    *ngFor="let item of items"
+    [routerLink]="[item.link]"
+  >
     <div class="back" [style]="item.imagen1"></div>
     <div class="back" [style]="item.imagen2"></div>
     <div class="back" [style]="item.imagen3"></div>
-    <div class="item-name">
+    <div class="item-name" [routerLink]="[item.link]">
       <h2>{{ item.titulo }}</h2>
     </div>
   </div>
