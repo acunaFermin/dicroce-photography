@@ -1,5 +1,5 @@
-<nav>
-  <div class="container">
+<nav [ngClass]="{ 'nav-desp': desplegarStatus }">
+  <div class="container" [ngClass]="{ 'container-desp': desplegarStatus }">
     <!-- logo -->
     <div class="logo" routerLink="">
       <img class="firma" src="assets/firma/firma-blanca.png" alt="" srcset="" />
@@ -7,19 +7,20 @@
 
     <!-- buttons -->
     <div class="buttons-container" [ngClass]="{ desplegar: desplegarStatus }">
-      <div class="buttons">
+      <div id="lateral-bar" class="buttons">
         <button
           id="portfolio"
           class="btn"
           routerLink=""
           routerLinkActive="btn-active"
+          (click)="close()"
         >
           portfolio
         </button>
-        <button id="servicios" class="btn">servicios</button>
-        <button id="formacion" class="btn">formacion</button>
-        <button id="sobre-mi" class="btn">sobre mi</button>
-        <button id="contacto" class="btn">contacto</button>
+        <button (click)="close()" id="servicios" class="btn">servicios</button>
+        <button (click)="close()" id="formacion" class="btn">formacion</button>
+        <button (click)="close()" id="sobre-mi" class="btn">sobre mi</button>
+        <button (click)="close()" id="contacto" class="btn">contacto</button>
       </div>
     </div>
 

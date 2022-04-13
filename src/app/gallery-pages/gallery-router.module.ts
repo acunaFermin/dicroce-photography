@@ -10,15 +10,18 @@ const routes: Routes = [
     children: [
       {
         path: 'beauty',
-        component: Gall1Component,
+        loadChildren: () =>
+          import('./gall1/gall1.module').then((m) => m.Gall1Module),
       },
       {
         path: 'fine-art',
-        component: Gall2Component,
+        loadChildren: () =>
+          import('./gall2/gall2.module').then((m) => m.Gall2Module),
       },
       {
         path: 'personalizado',
-        component: Gall3Component,
+        loadChildren: () =>
+          import('./gall3/gall3.module').then((m) => m.Gall3Module),
       },
       {
         path: '**',
