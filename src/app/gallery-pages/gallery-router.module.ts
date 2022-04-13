@@ -10,7 +10,8 @@ const routes: Routes = [
     children: [
       {
         path: 'beauty',
-        component: Gall1Component,
+        loadChildren: () =>
+          import('./gall1/gall1.module').then((m) => m.Gall1Module),
       },
       {
         path: 'fine-art',
