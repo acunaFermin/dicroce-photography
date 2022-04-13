@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ImagesService } from 'src/app/images.service';
 import { Image } from 'src/app/interfaces/interfaces';
+import { PortfolioService } from 'src/app/portfolio/portfolio.service';
 
 @Component({
   selector: 'app-gall1',
@@ -9,11 +11,36 @@ import { Image } from 'src/app/interfaces/interfaces';
 })
 export class Gall1Component implements OnInit {
   images: Image[] = [];
-  constructor(private imageService: ImagesService) {
+  title: string = '';
+  galname: string = '';
+
+  constructor(
+    private imageService: ImagesService,
+    private portfolioService: PortfolioService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    //obtengo el nombre de la galeria del url
+    this.galname = this.route.snapshot.paramMap.get('galname') || '';
+
+    //obtengo titulo
+    this.Title();
+
+    //obtengo imagenes que coincidan con la galeria
     this.images = this.imageService.images.filter(
-      (img) => img.gallery === 'beauty'
+      (img) => img.gallery === this.galname
     );
   }
 
-  ngOnInit(): void {}
+  Title() {
+    const secciones = this.portfolioService.items;
+
+    for (let item of secciones) {
+      if (item.link === `/gallery/${this.galname}`) {
+        this.title = item.titulo;
+        break;
+      }
+    }
+  }
 }

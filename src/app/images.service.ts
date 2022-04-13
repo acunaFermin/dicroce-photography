@@ -61,6 +61,24 @@ export class ImagesService {
       gallery: 'personalizado',
       position: 'horizontal',
     },
+    {
+      id: '10',
+      name: '_MG_0532-Editar-min.jpg',
+      gallery: 'general',
+      position: 'vertical',
+    },
+    {
+      id: '12',
+      name: '_MG_0724-Editar-min.jpg',
+      gallery: 'general',
+      position: 'vertical',
+    },
+    {
+      id: '13',
+      name: 'Anto 2-min.jpg',
+      gallery: 'general',
+      position: 'horizontal',
+    },
   ];
 
   constructor() {}

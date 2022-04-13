@@ -32,12 +32,12 @@ export class PortfolioService {
       imagen3: `background-image: url("assets/personalizado/5134 CMYK-min.jpg");`,
     },
     {
-      titulo: 'Retrato Pindonga',
-      link: '/gallery/personalizado',
-      imagen1: "background-image: url('assets/personalizado/_MG_2329-min.jpg')",
-      imagen2: `background-image: url('assets/personalizado/IMG_3192-min.jpg');
-      background-position-x: 10%;`,
-      imagen3: `background-image: url("assets/personalizado/5134 CMYK-min.jpg");`,
+      titulo: 'General',
+      link: '/gallery/general',
+      imagen1: "background-image: url('assets/beauty/_MG_0532-Editar-min.jpg')",
+      imagen2: `background-image: url("assets/beauty/Anto 2-min.jpg");
+    background-position-x: 80%;`,
+      imagen3: `background-image: url('assets/beauty/_MG_0724-Editar-min.jpg');`,
     },
   ];
 
