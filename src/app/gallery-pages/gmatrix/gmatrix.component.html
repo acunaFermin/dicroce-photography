@@ -1,20 +1,10 @@
 <div class="container">
   <h1>Portfolio - {{ titulo }}</h1>
   <div class="container-gallery">
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-h"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-h"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-v"></div>
-    <div class="imagen-h"></div>
+    <div
+      *ngFor="let image of images"
+      [ngClass]="image.position"
+      [style]="image.style"
+    ></div>
   </div>
 </div>

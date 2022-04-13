@@ -31,6 +31,14 @@ export class PortfolioService {
       background-position-x: 10%;`,
       imagen3: `background-image: url("assets/personalizado/5134 CMYK-min.jpg");`,
     },
+    {
+      titulo: 'Retrato Pindonga',
+      link: '/gallery/personalizado',
+      imagen1: "background-image: url('assets/personalizado/_MG_2329-min.jpg')",
+      imagen2: `background-image: url('assets/personalizado/IMG_3192-min.jpg');
+      background-position-x: 10%;`,
+      imagen3: `background-image: url("assets/personalizado/5134 CMYK-min.jpg");`,
+    },
   ];
 
   get items() {

@@ -19,19 +19,15 @@
   width: 50vw;
 }
 
-.imagen-v {
+.vertical {
   width: 50%;
   height: 37.5vw;
-  background-color: rgba(255, 228, 196, 0.418);
-  background-image: url("../../../assets/beauty/_MG_0532-Editar-min.jpg");
   background-size: cover;
 }
 
-.imagen-h {
+.horizontal {
   width: 100%;
   height: 33.3vw;
-  background-color: rgba(255, 228, 196, 0.418);
-  background-image: url("../../../assets/beauty/Anto 2-min.jpg");
   background-size: cover;
 }
 
@@ -44,11 +40,11 @@
     font-size: 5vw;
   }
 
-  .imagen-v {
+  .vertical {
     height: 71.25vw;
   }
 
-  .imagen-h {
+  .horizontal {
     width: 100%;
     height: 63vw;
   }

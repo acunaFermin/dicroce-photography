@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   //cerrar el menu si se clickea fuera
   @HostListener('touchstart', ['$event.target.id'])
   onClick(id: string) {
-    if (id !== 'lateral-bar') {
+    if (id !== 'lateral-bar' && id !== 'btn-close') {
       setTimeout(() => {
         this.close();
       }, 50);
