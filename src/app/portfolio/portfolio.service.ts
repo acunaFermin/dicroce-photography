@@ -39,6 +39,14 @@ export class PortfolioService {
     background-position-x: 80%;`,
       imagen3: `background-image: url('assets/beauty/_MG_0724-Editar-min.jpg');`,
     },
+    {
+      titulo: 'Tormentas',
+      link: '/gallery/tormentas',
+      imagen1: "background-image: url('assets/beauty/_MG_0532-Editar-min.jpg')",
+      imagen2: `background-image: url("assets/beauty/Anto 2-min.jpg");
+    background-position-x: 80%;`,
+      imagen3: `background-image: url('assets/beauty/_MG_0724-Editar-min.jpg');`,
+    },
   ];
 
   get items() {

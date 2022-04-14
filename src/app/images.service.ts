@@ -79,6 +79,24 @@ export class ImagesService {
       gallery: 'general',
       position: 'horizontal',
     },
+    {
+      id: '14',
+      name: '_MG_0532-Editar-min.jpg',
+      gallery: 'tormentas',
+      position: 'vertical',
+    },
+    {
+      id: '15',
+      name: '_MG_0724-Editar-min.jpg',
+      gallery: 'tormentas',
+      position: 'vertical',
+    },
+    {
+      id: '16',
+      name: 'Anto 2-min.jpg',
+      gallery: 'tormentas',
+      position: 'horizontal',
+    },
   ];
 
   constructor() {}
