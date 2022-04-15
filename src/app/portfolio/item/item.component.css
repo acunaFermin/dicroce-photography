@@ -23,6 +23,7 @@
 }
 
 .back {
+  position: relative;
   width: 33.33%;
   background-position: top;
   background-repeat: no-repeat;
@@ -30,6 +31,20 @@
   cursor: pointer;
 }
 
+.edit-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.196);
+}
+
+@media (max-width: 800px) {
+  .edit-btn {
+    height: 6vw;
+  }
+}
 .item-name {
   position: absolute;
   bottom: 10px;

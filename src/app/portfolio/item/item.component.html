@@ -2,13 +2,26 @@
   <div
     class="container-item"
     *ngFor="let item of items"
-    [routerLink]="[item.link]"
+    [routerLink]="preventRouter ? item.link : null"
   >
-    <div class="back" [style]="item.imagen1"></div>
-    <div class="back" [style]="item.imagen2"></div>
-    <div class="back" [style]="item.imagen3"></div>
+    <div class="back" [style]="item.imagen1">
+      <span class="edit-btn" id="edit-btn-1">
+        <app-buttons [selection]="item"></app-buttons>
+      </span>
+    </div>
+    <div class="back" [style]="item.imagen2">
+      <span class="edit-btn" id="edit-btn-2">
+        <app-buttons [selection]="item"></app-buttons>
+      </span>
+    </div>
+    <div class="back" [style]="item.imagen3">
+      <span class="edit-btn" id="edit-btn-3">
+        <app-buttons [selection]="item"></app-buttons>
+      </span>
+    </div>
     <div class="item-name" [routerLink]="[item.link]">
       <h2>{{ item.titulo }}</h2>
+      <app-buttons [selection]="item"></app-buttons>
     </div>
   </div>
 </div>

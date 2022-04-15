@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { GalleryModule } from './gallery-pages/gallery.module';
+import { ButtonsModule } from './buttons/buttons.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { GalleryModule } from './gallery-pages/gallery.module';
     NavbarModule,
     GalleryModule,
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent],
 })

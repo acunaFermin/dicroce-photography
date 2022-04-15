@@ -1,0 +1,44 @@
+.icons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  height: 30px;
+  background-color: #f1f1f171;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-shadow: 0 5px 10px rgb(80, 80, 80);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-icon {
+  width: 20px;
+  height: 100%;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .icons {
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    width: 10vw;
+    height: 4vw;
+    border-radius: 3vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    box-shadow: 0 5px 10px rgb(80, 80, 80);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .edit-icon {
+    width: 20%;
+    height: 100%;
+    cursor: pointer;
+  }
+}

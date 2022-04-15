@@ -5,6 +5,8 @@
       *ngFor="let image of images"
       [ngClass]="image.position"
       [style]="image.style"
-    ></div>
+    >
+      <app-buttons [selection]="image"></app-buttons>
+    </div>
   </div>
 </div>

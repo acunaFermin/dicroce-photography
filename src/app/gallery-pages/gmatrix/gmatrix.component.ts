@@ -16,4 +16,6 @@ export class GmatrixComponent implements OnInit {
       img.style = `background-image: url("assets/${img.gallery}/${img.name}");`;
     });
   }
+
+  
 }
