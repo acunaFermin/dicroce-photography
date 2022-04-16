@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Image } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
 
 import Swal from 'sweetalert2';
 import { changeTitle } from './helpers';
+import { ImagesService } from '../images.service';
 
 @Component({
   selector: 'app-buttons',
@@ -15,8 +16,12 @@ export class ButtonsComponent implements OnInit {
   @Input() portfolioItem!: PortfolioItem;
   @Input() image!: Image;
   @Input() title!: string;
+  @Output() deleteImage = new EventEmitter<Image>();
 
-  constructor(private portfolioService: PortfolioService) {}
+  constructor(
+    private portfolioService: PortfolioService,
+    private imagesService: ImagesService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -35,10 +40,13 @@ export class ButtonsComponent implements OnInit {
   }
 
   delete() {
-    console.log('delete', this.portfolioItem);
+    // console.log('delete', this.portfolioItem);
     //TODO: eliminar el item seleccionado de la base de datos
-    // this.portfolioService.items = this.portfolioService.items.filter(
-    //   (item) => item !== this.portfolioItem
-    // );
+    this.imagesService.images = this.imagesService.images.filter(
+      (image) => image.id !== this.image.id
+    );
+    console.log('emit', this.image);
+
+    this.deleteImage.emit(this.image);
   }
 }

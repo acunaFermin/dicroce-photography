@@ -11,7 +11,8 @@
       [ngClass]="image.position"
       [style]="image.style"
     >
-      <app-buttons [image]="image"> </app-buttons>
+      <app-buttons [image]="image" (deleteImage)="deleteImg($event)">
+      </app-buttons>
     </div>
   </div>
 </div>

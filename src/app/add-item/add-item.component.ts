@@ -3,7 +3,6 @@ import { ImagesService } from '../images.service';
 import { Image } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { selectVH } from './helpers';
-
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
@@ -50,6 +49,8 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {}
 
   addItem() {
+    console.log(new Date().toString());
+
     console.log(this.item);
     console.log(this.galname);
 
@@ -60,6 +61,7 @@ export class AddItemComponent implements OnInit {
       let position = selectVH();
 
       position.then((position) => {
+        this.testImages.id = new Date().toString();
         this.testImages.position = position;
         this.testImages.style = `
           background-image: url("assets/icons/add-image.svg");

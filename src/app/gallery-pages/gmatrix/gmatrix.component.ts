@@ -10,6 +10,7 @@ export class GmatrixComponent implements OnInit {
   @Input() galname: string = '';
   @Input() images: Image[] = [];
   @Output() callGall1 = new EventEmitter<Image>();
+  @Output() deleteImage = new EventEmitter<Image>();
 
   constructor() {}
 
@@ -27,5 +28,9 @@ export class GmatrixComponent implements OnInit {
 
   callFromAddItem(call: Image) {
     this.callGall1.emit(call);
+  }
+
+  deleteImg(image: Image) {
+    this.deleteImage.emit(image);
   }
 }

@@ -50,7 +50,7 @@ export class Gall1Component implements OnInit {
     );
   }
 
-  callFromGmatrix(addImage: Image) {
+  callFromGmatrix(addImage?: Image) {
     console.log('call from gmatrix', addImage);
     this.createGallery(addImage);
   }
