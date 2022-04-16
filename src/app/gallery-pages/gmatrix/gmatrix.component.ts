@@ -7,6 +7,7 @@ import { Image } from '../../interfaces/interfaces';
 })
 export class GmatrixComponent implements OnInit {
   @Input() titulo: string = '';
+  @Input() galname: string = '';
   @Input() images: Image[] = [];
 
   constructor() {}
@@ -16,6 +17,4 @@ export class GmatrixComponent implements OnInit {
       img.style = `background-image: url("assets/${img.gallery}/${img.name}");`;
     });
   }
-
-  
 }

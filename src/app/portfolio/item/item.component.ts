@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
 
@@ -8,13 +8,20 @@ import { PortfolioService } from '../portfolio.service';
   styleUrls: ['./item.component.css'],
 })
 export class ItemComponent implements OnInit {
-  items: PortfolioItem[] = [];
+  @Input() items: PortfolioItem[] = [];
   preventRouter: boolean = false;
   constructor(private portfolioService: PortfolioService) {
     this.items = this.portfolioService.items;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.items.forEach((item) => {
+      // item.style = `background-image: url("assets/${item.gallery}/${item.name}");`;
+      item.imagen1.style = `background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");`;
+      item.imagen2.style = `background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");`;
+      item.imagen3.style = `background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");`;
+    });
+  }
 
   @HostListener('click', ['$event'])
   @HostListener('touchstart', ['$event'])

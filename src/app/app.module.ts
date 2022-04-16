@@ -7,7 +7,9 @@ import { AppComponent } from './app.component';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { GalleryModule } from './gallery-pages/gallery.module';
-import { ButtonsModule } from './buttons/buttons.module';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +19,8 @@ import { ButtonsModule } from './buttons/buttons.module';
     PortfolioModule,
     NavbarModule,
     GalleryModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
   ],
   exports: [],
   providers: [],

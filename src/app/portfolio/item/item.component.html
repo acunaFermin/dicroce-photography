@@ -4,19 +4,19 @@
     *ngFor="let item of items"
     [routerLink]="preventRouter ? item.link : null"
   >
-    <div class="back" [style]="item.imagen1">
+    <div class="back" [style]="item.imagen1.style">
       <span class="edit-btn" id="edit-btn-1">
-        <app-buttons [selection]="item"></app-buttons>
+        <app-buttons [selection]="item.imagen1"></app-buttons>
       </span>
     </div>
-    <div class="back" [style]="item.imagen2">
+    <div class="back" [style]="item.imagen2.style">
       <span class="edit-btn" id="edit-btn-2">
-        <app-buttons [selection]="item"></app-buttons>
+        <app-buttons [selection]="item.imagen2"></app-buttons>
       </span>
     </div>
-    <div class="back" [style]="item.imagen3">
+    <div class="back" [style]="item.imagen3.style">
       <span class="edit-btn" id="edit-btn-3">
-        <app-buttons [selection]="item"></app-buttons>
+        <app-buttons [selection]="item.imagen3"></app-buttons>
       </span>
     </div>
     <div class="item-name" [routerLink]="[item.link]">
