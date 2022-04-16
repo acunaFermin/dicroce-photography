@@ -10,9 +10,7 @@ import { PortfolioService } from '../portfolio.service';
 export class ItemComponent implements OnInit {
   @Input() items: PortfolioItem[] = [];
   preventRouter: boolean = false;
-  constructor(private portfolioService: PortfolioService) {
-    this.items = this.portfolioService.items;
-  }
+  constructor(private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
     this.items.forEach((item) => {
