@@ -28,9 +28,7 @@ export class Gall1Component implements OnInit {
     this.Title();
 
     //obtengo imagenes que coincidan con la galeria
-    this.images = this.imageService.images.filter(
-      (img) => img.gallery === this.galname
-    );
+    this.createGallery();
   }
 
   Title() {
@@ -42,5 +40,18 @@ export class Gall1Component implements OnInit {
         break;
       }
     }
+  }
+
+  createGallery(addImage?: Image) {
+    addImage ? this.imageService.images.unshift(addImage) : null;
+
+    this.images = this.imageService.images.filter(
+      (img) => img.gallery === this.galname
+    );
+  }
+
+  callFromGmatrix(addImage: Image) {
+    console.log('call from gmatrix', addImage);
+    this.createGallery(addImage);
   }
 }

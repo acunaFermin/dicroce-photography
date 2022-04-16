@@ -14,10 +14,27 @@ export class ItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.items.forEach((item) => {
-      // item.style = `background-image: url("assets/${item.gallery}/${item.name}");`;
-      item.imagen1.style = `background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");`;
-      item.imagen2.style = `background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");`;
-      item.imagen3.style = `background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");`;
+      let addImageStyle = '';
+
+      if (!item.link) {
+        addImageStyle = `
+          background-size: 50%;
+          background-position: center;
+          box-shadow: inset 0 0 10px black;`;
+      }
+
+      item.imagen1.style = `
+        background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
+        ${addImageStyle}        
+      `;
+      item.imagen2.style = `
+        background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
+        ${addImageStyle}
+        `;
+      item.imagen3.style = `
+        background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
+        ${addImageStyle}
+        `;
     });
   }
 

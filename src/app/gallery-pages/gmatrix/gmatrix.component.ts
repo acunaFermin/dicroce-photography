@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Image } from '../../interfaces/interfaces';
 @Component({
   selector: 'app-gmatrix',
@@ -9,12 +9,23 @@ export class GmatrixComponent implements OnInit {
   @Input() titulo: string = '';
   @Input() galname: string = '';
   @Input() images: Image[] = [];
+  @Output() callGall1 = new EventEmitter<Image>();
 
   constructor() {}
 
-  ngOnInit(): void {
+  createGallery() {
     this.images.forEach((img) => {
-      img.style = `background-image: url("assets/${img.gallery}/${img.name}");`;
+      img.name !== 'add-image.svg'
+        ? (img.style = `background-image: url("assets/${img.gallery}/${img.name}");`)
+        : null;
     });
+  }
+
+  ngOnInit(): void {
+    this.createGallery();
+  }
+
+  callFromAddItem(call: Image) {
+    this.callGall1.emit(call);
   }
 }

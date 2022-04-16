@@ -6,11 +6,18 @@ import { PortfolioService } from './portfolio.service';
 import { RouterModule } from '@angular/router';
 import { ButtonsModule } from '../buttons/buttons.module';
 import { AddItemModule } from '../add-item/add-item.module';
+import { ItemModule } from './item/item.module';
 
 @NgModule({
-  declarations: [PortfolioComponent, ItemComponent],
-  exports: [PortfolioComponent, ItemComponent],
-  imports: [CommonModule, RouterModule, ButtonsModule, AddItemModule],
+  declarations: [PortfolioComponent],
+  exports: [PortfolioComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonsModule,
+    ItemModule,
+    AddItemModule,
+  ],
   providers: [PortfolioService],
 })
 export class PortfolioModule {}

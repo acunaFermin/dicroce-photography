@@ -5,7 +5,7 @@ import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
   providedIn: 'root',
 })
 export class PortfolioService {
-  private _items: PortfolioItem[] = [
+  items: PortfolioItem[] = [
     {
       titulo: 'Retrato Beauty',
       link: '/gallery/beauty',
@@ -73,10 +73,6 @@ export class PortfolioService {
       },
     },
   ];
-
-  get items() {
-    return [...this._items];
-  }
 
   constructor() {}
 }

@@ -3,3 +3,4 @@
     <img class="add-image" src="/assets/icons/add-image.svg" alt="add-item" />
   </div>
 </div>
+<app-item *ngIf="editMenuType === 'portfolio'" [items]="[testItem]"></app-item>
