@@ -5,26 +5,53 @@
     [routerLink]="preventRouter ? item.link : null"
   >
     <div class="back" [style]="item.imagen1.style">
+      <img
+        class="imagePreview"
+        *ngIf="item.imagen1.preview"
+        [src]="item.imagen1.preview"
+        alt=""
+        srcset=""
+      />
+
       <span class="edit-btn" id="edit-btn-1">
         <app-buttons
           [image]="item.imagen1"
           [portfolioItem]="item"
+          (preview)="getImagePreview($event)"
         ></app-buttons>
       </span>
     </div>
     <div class="back" [style]="item.imagen2.style">
+      <img
+        class="imagePreview"
+        *ngIf="item.imagen2.preview"
+        [src]="item.imagen2.preview"
+        alt=""
+        srcset=""
+      />
+
       <span class="edit-btn" id="edit-btn-2">
         <app-buttons
           [image]="item.imagen2"
           [portfolioItem]="item"
+          (preview)="getImagePreview($event)"
         ></app-buttons>
       </span>
     </div>
     <div class="back" [style]="item.imagen3.style">
+      <img
+        class="imagePreview"
+        *ngIf="item.imagen3.preview"
+        [src]="item.imagen3.preview"
+        alt=""
+        srcset=""
+      />
+
       <span class="edit-btn" id="edit-btn-3">
         <app-buttons
           [image]="item.imagen3"
           [portfolioItem]="item"
+          (preview)="getImagePreview($event)"
         ></app-buttons>
       </span>
     </div>

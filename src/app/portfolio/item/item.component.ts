@@ -10,12 +10,27 @@ import { PortfolioService } from '../portfolio.service';
 export class ItemComponent implements OnInit {
   @Input() items: PortfolioItem[] = [];
   preventRouter: boolean = false;
+  imagePreview: any;
+
   constructor(private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
+    this.createItemPortfolio();
+  }
+
+  @HostListener('click', ['$event'])
+  @HostListener('touchstart', ['$event'])
+  onClick(e: any) {
+    let target = [e.target.id, e.path[3].id, e.path[2].id];
+
+    this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
+  }
+
+  createItemPortfolio() {
     this.items.forEach((item) => {
       let addImageStyle = '';
 
+      //estilo sin imagen
       if (!item.link) {
         addImageStyle = `
           background-size: 50%;
@@ -35,14 +50,25 @@ export class ItemComponent implements OnInit {
         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
         ${addImageStyle}
         `;
+
+      if (!this.imagePreview) {
+        return;
+      }
+
+      if (item.imagen1.id === this.imagePreview.id) {
+        item.imagen1.preview = this.imagePreview.imagePreview.base;
+      }
+      if (item.imagen2.id === this.imagePreview.id) {
+        item.imagen2.preview = this.imagePreview.imagePreview.base;
+      }
+      if (item.imagen3.id === this.imagePreview.id) {
+        item.imagen3.preview = this.imagePreview.imagePreview.base;
+      }
     });
   }
 
-  @HostListener('click', ['$event'])
-  @HostListener('touchstart', ['$event'])
-  onClick(e: any) {
-    let target = [e.target.id, e.path[3].id, e.path[2].id];
-
-    this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
+  getImagePreview(imagePreview: any) {
+    this.imagePreview = imagePreview;
+    this.createItemPortfolio();
   }
 }

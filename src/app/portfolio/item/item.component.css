@@ -40,6 +40,10 @@
   background-color: rgba(0, 0, 0, 0.196);
 }
 
+.imagePreview {
+  width: 100%;
+}
+
 @media (max-width: 800px) {
   .edit-btn {
     height: 6vw;
@@ -71,10 +75,9 @@
   font-weight: 100;
   letter-spacing: 2px;
 }
-
 @media (max-width: 1230px) {
   .container {
-    height: 60vw;
+    height: 50vw;
   }
 
   .container-item {
