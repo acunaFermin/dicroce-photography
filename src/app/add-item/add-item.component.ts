@@ -68,7 +68,7 @@ export class AddItemComponent implements OnInit {
           background-size: 20%;
           background-repeat: no-repeat;
           background-position: center;
-          box-shadow: inset 0 0 10px black;`;
+          box-shadow: inset 0 0 2px black;`;
         this.testImages.gallery = this.galname;
 
         this.callGmatrix.emit({ ...this.testImages });

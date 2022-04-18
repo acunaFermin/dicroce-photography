@@ -11,7 +11,19 @@
       [ngClass]="image.position"
       [style]="image.style"
     >
-      <app-buttons [image]="image" (deleteImage)="deleteImg($event)">
+      <img
+        class="imagePreview"
+        *ngIf="image.preview"
+        [ngClass]="image.position"
+        [src]="image.preview.base"
+        alt=""
+        srcset=""
+      />
+      <app-buttons
+        [image]="image"
+        (preview)="preview($event)"
+        (deleteImage)="deleteImg($event)"
+      >
       </app-buttons>
     </div>
   </div>

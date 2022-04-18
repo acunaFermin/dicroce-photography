@@ -4,4 +4,5 @@ export interface Image {
   position: string;
   gallery: string;
   style?: string;
+  preview?: any;
 }

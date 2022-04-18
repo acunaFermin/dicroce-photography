@@ -42,16 +42,33 @@ export class Gall1Component implements OnInit {
     }
   }
 
-  createGallery(addImage?: Image) {
+  createGallery(addImage?: Image, imgPreview?: any) {
     addImage ? this.imageService.images.unshift(addImage) : null;
 
     this.images = this.imageService.images.filter(
       (img) => img.gallery === this.galname
     );
+
+    if (!imgPreview) {
+      return;
+    }
+
+    this.images.forEach((image) => {
+      image.id === imgPreview.id
+        ? (image.preview = imgPreview.imagePreview)
+        : 'null';
+    });
+
+    console.log(this.images);
   }
 
   callFromGmatrix(addImage?: Image) {
     console.log('call from gmatrix', addImage);
     this.createGallery(addImage);
+  }
+
+  imagePreview(preview: any) {
+    console.log('gall1, img preview', preview);
+    this.createGallery(undefined, preview);
   }
 }

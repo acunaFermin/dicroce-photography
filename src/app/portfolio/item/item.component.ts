@@ -20,7 +20,7 @@ export class ItemComponent implements OnInit {
         addImageStyle = `
           background-size: 50%;
           background-position: center;
-          box-shadow: inset 0 0 10px black;`;
+          box-shadow: inset 0 0 2px black;`;
       }
 
       item.imagen1.style = `
