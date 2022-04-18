@@ -49,6 +49,7 @@
     height: 6vw;
   }
 }
+
 .item-name {
   position: absolute;
   bottom: 10px;
@@ -63,6 +64,7 @@
   opacity: 0.7;
   cursor: pointer;
   transition: all 0.2s linear;
+  overflow: hidden;
 }
 
 .item-name:hover {
@@ -77,7 +79,7 @@
 }
 @media (max-width: 1230px) {
   .container {
-    height: 50vw;
+    height: 49vw;
   }
 
   .container-item {
