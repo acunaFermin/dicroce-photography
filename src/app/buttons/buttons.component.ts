@@ -39,7 +39,6 @@ export class ButtonsComponent implements OnInit {
   async edit() {
     if (this.title) {
       changeTitle(this.portfolioItem);
-      console.log(this.portfolioItem.titulo);
     }
 
     if (this.image) {
@@ -82,7 +81,4 @@ export class ButtonsComponent implements OnInit {
       };
     });
   }
-
-  // this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-  //                + toReturnImage.base64string);
 }

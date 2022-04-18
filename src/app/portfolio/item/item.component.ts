@@ -1,3 +1,4 @@
+import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 import {
   Component,
   HostListener,
@@ -63,19 +64,11 @@ export class ItemComponent implements OnInit, OnChanges {
         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
         ${addImageStyle}
         `;
-
-      if (this.imagePreview) {
-        if (item.imagen1.id === this.imagePreview.id) {
-          item.imagen1.preview = this.imagePreview.imagePreview.base;
-        }
-        if (item.imagen2.id === this.imagePreview.id) {
-          item.imagen2.preview = this.imagePreview.imagePreview.base;
-        }
-        if (item.imagen3.id === this.imagePreview.id) {
-          item.imagen3.preview = this.imagePreview.imagePreview.base;
-        }
-      }
     });
+
+    if (this.imagePreview) {
+      console.log(this.imagePreview);
+    }
   }
 
   getImagePreview(imagePreview: any) {

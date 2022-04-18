@@ -14,28 +14,32 @@ export class AddItemComponent implements OnInit {
   @Output() callGmatrix = new EventEmitter<Image>();
   @Output() newPortfolioItem = new EventEmitter<PortfolioItem>();
 
-  testItem: PortfolioItem = {
+  private _testItem: PortfolioItem = {
     titulo: 'Editar titulo',
     link: null,
     imagen1: {
-      id: '2323',
+      id: '',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
     },
     imagen2: {
-      id: '2424',
+      id: '',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
     },
     imagen3: {
-      id: '2525',
+      id: '',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
     },
   };
+
+  get testItem() {
+    return { ...this._testItem };
+  }
 
   testImages: Image = {
     id: '1',
@@ -50,7 +54,7 @@ export class AddItemComponent implements OnInit {
 
   addItem() {
     if (this.item === 'portfolio') {
-      this.newPortfolioItem.emit(this.testItem);
+      this.newPortfolioItem.emit({ ...this.testItem });
       return;
     }
 
