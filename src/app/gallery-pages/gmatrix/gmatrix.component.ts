@@ -19,7 +19,7 @@ export class GmatrixComponent implements OnInit {
   createGallery() {
     this.images.forEach((img) => {
       img.name !== 'add-image.svg'
-        ? (img.style = `background-image: url("assets/${img.gallery}/${img.name}");`)
+        ? (img.style = `background-image: url("assets/images/${img.name}");`)
         : null;
 
       console.log('imagepreview!!', this.imgPreview);

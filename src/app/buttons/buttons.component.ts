@@ -54,7 +54,8 @@ export class ButtonsComponent implements OnInit {
   save() {
     console.log(this.portfolioItem);
     // TODO: una vez editado el item, guardarlo en la base de datos
-    // this.portfolioService.items.unshift(this.portfolioItem);
+
+    this.portfolioService.items.unshift(this.portfolioItem);
   }
 
   delete() {

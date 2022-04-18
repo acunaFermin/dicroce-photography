@@ -12,7 +12,13 @@ export const changeTitle = async (portfolioItem: PortfolioItem) => {
     showCancelButton: true,
     inputValidator: (value) => {
       if (value) {
+        //retorna titulo por referencia
         portfolioItem.titulo = value;
+
+        //retorna link por referencia
+        portfolioItem.link = generateLink(value);
+        console.log(portfolioItem.link);
+
         return '';
       } else {
         return 'Ingrese un título';
@@ -20,3 +26,7 @@ export const changeTitle = async (portfolioItem: PortfolioItem) => {
     },
   });
 };
+
+//generar link
+const generateLink = (title: string) =>
+  `gallery/${title.replace(/[" "]/gi, '').toLowerCase()}`;

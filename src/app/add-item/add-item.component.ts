@@ -49,11 +49,6 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {}
 
   addItem() {
-    console.log(new Date().toString());
-
-    console.log(this.item);
-    console.log(this.galname);
-
     this.editMenuType = this.item;
 
     if (this.item === 'gallery') {
