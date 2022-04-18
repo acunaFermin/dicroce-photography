@@ -1,5 +1,8 @@
 <div class="container">
   <h1>Portfolio</h1>
-  <app-add-item [item]="'portfolio'"></app-add-item>
+  <app-add-item
+    [item]="'portfolio'"
+    (newPortfolioItem)="newPortfolioItem($event)"
+  ></app-add-item>
   <app-item [items]="items"></app-item>
 </div>

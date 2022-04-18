@@ -37,25 +37,23 @@ export class ButtonsComponent implements OnInit {
   ngOnInit(): void {}
 
   async edit() {
-    this.title
-      ? changeTitle(this.portfolioItem)
-      : this.image
-      ? callInputFile().then((file) => {
-          console.log(file.value);
-          this.extraerBase64(file.value).then((imagePreview) => {
-            console.log('image 64');
+    if (this.title) {
+      changeTitle(this.portfolioItem);
+      console.log(this.portfolioItem.titulo);
+    }
 
-            this.preview.emit({ imagePreview, id: this.image.id });
-          });
-        })
-      : null;
+    if (this.image) {
+      callInputFile()
+        .then((file) => this.extraerBase64(file.value))
+        .then((imagePreview) =>
+          this.preview.emit({ imagePreview, id: this.image.id })
+        );
+    }
   }
 
   save() {
     console.log(this.portfolioItem);
     // TODO: una vez editado el item, guardarlo en la base de datos
-
-    this.portfolioService.items.unshift(this.portfolioItem);
   }
 
   delete() {

@@ -17,7 +17,6 @@ export const changeTitle = async (portfolioItem: PortfolioItem) => {
 
         //retorna link por referencia
         portfolioItem.link = generateLink(value);
-        console.log(portfolioItem.link);
 
         return '';
       } else {

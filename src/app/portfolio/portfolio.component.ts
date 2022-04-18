@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 import { PortfolioService } from './portfolio.service';
 
@@ -10,8 +10,14 @@ import { PortfolioService } from './portfolio.service';
 export class PortfolioComponent implements OnInit {
   items: PortfolioItem[] = [];
   constructor(private portfolioService: PortfolioService) {
-    this.items = this.portfolioService.items;
+    this.items = [...this.portfolioService.items];
+    console.log(this.items);
   }
 
   ngOnInit(): void {}
+
+  newPortfolioItem(newPortfolioItem: PortfolioItem) {
+    this.portfolioService.items.unshift({ ...newPortfolioItem });
+    this.items = [...this.portfolioService.items];
+  }
 }

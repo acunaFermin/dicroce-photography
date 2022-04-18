@@ -12,25 +12,25 @@ export class AddItemComponent implements OnInit {
   @Input() item: string = 'item';
   @Input() galname: string = 'galname';
   @Output() callGmatrix = new EventEmitter<Image>();
-  editMenuType: string = '';
+  @Output() newPortfolioItem = new EventEmitter<PortfolioItem>();
 
   testItem: PortfolioItem = {
     titulo: 'Editar titulo',
     link: null,
     imagen1: {
-      id: '23',
+      id: '2323',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
     },
     imagen2: {
-      id: '24',
+      id: '2424',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
     },
     imagen3: {
-      id: '25',
+      id: '2525',
       name: 'add-image.svg',
       gallery: 'icons',
       position: '',
@@ -49,7 +49,10 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {}
 
   addItem() {
-    this.editMenuType = this.item;
+    if (this.item === 'portfolio') {
+      this.newPortfolioItem.emit(this.testItem);
+      return;
+    }
 
     if (this.item === 'gallery') {
       //preguntyar si vertical u horizontal

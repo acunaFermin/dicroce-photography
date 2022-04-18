@@ -1,4 +1,11 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
 
@@ -7,12 +14,18 @@ import { PortfolioService } from '../portfolio.service';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css'],
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, OnChanges {
   @Input() items: PortfolioItem[] = [];
+  @Input() newPortfolioItem!: PortfolioItem;
   preventRouter: boolean = false;
   imagePreview: any;
 
   constructor(private portfolioService: PortfolioService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    this.createItemPortfolio();
+  }
 
   ngOnInit(): void {
     this.createItemPortfolio();
@@ -51,18 +64,16 @@ export class ItemComponent implements OnInit {
         ${addImageStyle}
         `;
 
-      if (!this.imagePreview) {
-        return;
-      }
-
-      if (item.imagen1.id === this.imagePreview.id) {
-        item.imagen1.preview = this.imagePreview.imagePreview.base;
-      }
-      if (item.imagen2.id === this.imagePreview.id) {
-        item.imagen2.preview = this.imagePreview.imagePreview.base;
-      }
-      if (item.imagen3.id === this.imagePreview.id) {
-        item.imagen3.preview = this.imagePreview.imagePreview.base;
+      if (this.imagePreview) {
+        if (item.imagen1.id === this.imagePreview.id) {
+          item.imagen1.preview = this.imagePreview.imagePreview.base;
+        }
+        if (item.imagen2.id === this.imagePreview.id) {
+          item.imagen2.preview = this.imagePreview.imagePreview.base;
+        }
+        if (item.imagen3.id === this.imagePreview.id) {
+          item.imagen3.preview = this.imagePreview.imagePreview.base;
+        }
       }
     });
   }
