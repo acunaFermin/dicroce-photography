@@ -50,7 +50,10 @@ const showError = (title: string) => {
 //validar que no exitsa el titulo
 const validateTitle = (title: string, portfolioItems: PortfolioItem[]) => {
   for (let item of portfolioItems) {
-    if (item.titulo === title) {
+    if (
+      item.titulo.replace(/[" "]/gi, '').toLowerCase() ===
+      title.replace(/[" "]/gi, '').toLowerCase()
+    ) {
       return true;
     }
   }
