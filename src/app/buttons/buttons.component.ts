@@ -6,7 +6,7 @@ import {
   Output,
   Sanitizer,
 } from '@angular/core';
-import { Image } from '../interfaces/interfaces';
+import { Base, Image, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
 
@@ -26,7 +26,7 @@ export class ButtonsComponent implements OnInit {
   @Input() image!: Image;
   @Input() title!: string;
   @Output() deleteImage = new EventEmitter<Image>();
-  @Output() preview = new EventEmitter<any>();
+  @Output() preview = new EventEmitter<ImagePreview>();
 
   constructor(
     private portfolioService: PortfolioService,
@@ -44,9 +44,11 @@ export class ButtonsComponent implements OnInit {
     if (this.image) {
       callInputFile()
         .then((file) => this.extraerBase64(file.value))
-        .then((imagePreview) =>
-          this.preview.emit({ imagePreview, id: this.image.id })
-        );
+        .then((imagePreview) => {
+          let base: Base = imagePreview;
+          this.preview.emit({ imagePreview: base, id: this.image.id });
+        })
+        .catch((err) => console.warn('cancelado'));
     }
   }
 
@@ -66,7 +68,7 @@ export class ButtonsComponent implements OnInit {
     this.deleteImage.emit(this.image);
   }
 
-  extraerBase64($event: any) {
+  extraerBase64($event: any): Promise<Base> {
     return new Promise((resolve, reject) => {
       const unsafeImg = window.URL.createObjectURL($event);
       const image = this.sanitizer.bypassSecurityTrustUrl(
@@ -76,7 +78,7 @@ export class ButtonsComponent implements OnInit {
       reader.readAsDataURL($event);
       reader.onload = () => {
         resolve({
-          base: reader.result,
+          base: reader.result || '',
         });
       };
     });

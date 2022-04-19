@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { generateUUID } from '../helpers/uuid';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 import { PortfolioService } from './portfolio.service';
 
@@ -25,25 +26,13 @@ export class PortfolioComponent implements OnInit {
   }
 
   generateID(newPortfolioItem: PortfolioItem) {
-    newPortfolioItem.imagen1.id = this.generateUUID();
-    newPortfolioItem.imagen2.id = this.generateUUID();
-    newPortfolioItem.imagen3.id = this.generateUUID();
+    newPortfolioItem.imagen1.id = generateUUID();
+    newPortfolioItem.imagen2.id = generateUUID();
+    newPortfolioItem.imagen3.id = generateUUID();
 
+    //envio por valor las imagenes
     newPortfolioItem.imagen1 = { ...newPortfolioItem.imagen1 };
     newPortfolioItem.imagen2 = { ...newPortfolioItem.imagen2 };
     newPortfolioItem.imagen3 = { ...newPortfolioItem.imagen3 };
-  }
-
-  generateUUID() {
-    let ahora = new Date().getTime();
-
-    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      let aleatorio = (ahora + Math.random() * 16) % 16 | 0;
-      ahora = Math.floor(ahora / 16);
-
-      return (c == 'x' ? aleatorio : (aleatorio & 0x3) | 0x8).toString(16);
-    });
-
-    return uuid;
   }
 }

@@ -6,3 +6,12 @@ export interface Image {
   style?: string;
   preview?: any;
 }
+
+export interface ImagePreview {
+  imagePreview: Base;
+  id: string;
+}
+
+export interface Base {
+  base: string | ArrayBuffer;
+}

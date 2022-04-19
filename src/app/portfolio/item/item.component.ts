@@ -7,6 +7,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
 
@@ -19,7 +20,7 @@ export class ItemComponent implements OnInit, OnChanges {
   @Input() items: PortfolioItem[] = [];
   @Input() newPortfolioItem!: PortfolioItem;
   preventRouter: boolean = false;
-  imagePreview: any;
+  imagePreview!: ImagePreview;
 
   constructor(private portfolioService: PortfolioService) {}
 
@@ -64,14 +65,23 @@ export class ItemComponent implements OnInit, OnChanges {
         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
         ${addImageStyle}
         `;
-    });
 
-    if (this.imagePreview) {
-      console.log(this.imagePreview);
-    }
+      //previsualizacion de imagenes seleccionadas
+      if (!this.imagePreview) {
+        return;
+      }
+
+      item.imagen1.id === this.imagePreview.id
+        ? (item.imagen1.preview = this.imagePreview.imagePreview.base)
+        : item.imagen2.id === this.imagePreview.id
+        ? (item.imagen2.preview = this.imagePreview.imagePreview.base)
+        : item.imagen3.id === this.imagePreview.id
+        ? (item.imagen3.preview = this.imagePreview.imagePreview.base)
+        : null;
+    });
   }
 
-  getImagePreview(imagePreview: any) {
+  getImagePreview(imagePreview: ImagePreview) {
     this.imagePreview = imagePreview;
     this.createItemPortfolio();
   }
