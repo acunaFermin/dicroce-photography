@@ -50,19 +50,25 @@ export class Gall1Component implements OnInit {
   createGallery(addImage?: Image, imgPreview?: any) {
     addImage ? this.imageService.images.unshift(addImage) : null;
 
-    this.images = this.imageService.images.filter(
+    let images = this.imageService.images.filter(
       (img) => img.gallery === this.galname
     );
+
+    this.images = images;
 
     if (!imgPreview) {
       return;
     }
 
-    this.images.forEach((image) => {
+    images.forEach((image) => {
+      console.log('gall1 compara', image.id, imgPreview.id);
+
       image.id === imgPreview.id
         ? (image.preview = imgPreview.imagePreview)
         : 'null';
     });
+
+    this.images = images;
 
     console.log(this.images);
   }

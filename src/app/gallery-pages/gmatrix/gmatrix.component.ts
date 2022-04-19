@@ -1,11 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Image } from '../../interfaces/interfaces';
 @Component({
   selector: 'app-gmatrix',
   templateUrl: './gmatrix.component.html',
   styleUrls: ['./gmatrix.component.css'],
 })
-export class GmatrixComponent implements OnInit {
+export class GmatrixComponent implements OnInit, OnChanges {
   @Input() titulo: string = '';
   @Input() galname: string = '';
   @Input() images: Image[] = [];
@@ -15,6 +23,11 @@ export class GmatrixComponent implements OnInit {
   @Output() imagePreview = new EventEmitter<any>();
 
   constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.images);
+
+    this.createGallery();
+  }
 
   createGallery() {
     this.images.forEach((img) => {
@@ -22,10 +35,8 @@ export class GmatrixComponent implements OnInit {
         ? (img.style = `background-image: url("assets/images/${img.name}");`)
         : null;
 
-      console.log('imagepreview!!', this.imgPreview);
-
-      this.imgPreview
-        ? (img.style = `background-image: url(${this.imgPreview});`)
+      img.preview
+        ? (img.style = `background-image: url(${img.preview.base});`)
         : null;
     });
   }

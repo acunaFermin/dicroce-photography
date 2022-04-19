@@ -85,6 +85,14 @@ export class ItemComponent implements OnInit, OnChanges {
         : item.imagen3.id === this.imagePreview.id
         ? (item.imagen3.preview = this.imagePreview.imagePreview.base)
         : null;
+
+      item.imagen1.preview
+        ? (item.imagen1.style = `background-image: url(${item.imagen1.preview});`)
+        : item.imagen2.preview
+        ? (item.imagen2.style = `background-image: url(${item.imagen2.preview});`)
+        : item.imagen3.preview
+        ? (item.imagen3.style = `background-image: url(${item.imagen3.preview});`)
+        : null;
     });
 
     console.log(this.items);

@@ -25,7 +25,8 @@
 .back {
   position: relative;
   width: 33.33%;
-  background-position: top;
+  width: 100%;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   cursor: pointer;
@@ -46,10 +47,6 @@
   right: 0;
   width: 120px;
   height: 100%;
-}
-
-.imagePreview {
-  width: 100%;
 }
 
 @media (max-width: 800px) {
