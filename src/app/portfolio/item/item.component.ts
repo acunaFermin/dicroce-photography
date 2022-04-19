@@ -8,8 +8,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { ImagesService } from 'src/app/images.service';
 import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
+import { PortfolioService } from '../portfolio.service';
 
 @Component({
   selector: 'app-item',
@@ -23,10 +25,9 @@ export class ItemComponent implements OnInit, OnChanges {
 
   preventRouter: boolean = false;
   imagePreview!: ImagePreview;
-  constructor() {}
+  constructor(private portfolioService: PortfolioService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     this.createItemPortfolio();
   }
 
@@ -37,8 +38,6 @@ export class ItemComponent implements OnInit, OnChanges {
   @HostListener('click', ['$event'])
   @HostListener('touchstart', ['$event'])
   onClick(e: any) {
-    console.log(e);
-
     let target = [e.target.id, e.path[3].id, e.path[2].id];
 
     this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
@@ -52,15 +51,21 @@ export class ItemComponent implements OnInit, OnChanges {
           background-position: center;
           box-shadow: inset 0 0 2px black;`;
 
-      item.imagen1.style = `
+      item.imagen1.preview
+        ? (item.imagen1.style = `background-image: url(${item.imagen1.preview});`)
+        : (item.imagen1.style = `
         background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
-      `;
-      item.imagen2.style = `
+      `);
+      item.imagen2.preview
+        ? (item.imagen2.style = `background-image: url(${item.imagen2.preview});`)
+        : (item.imagen2.style = `
         background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
-        `;
-      item.imagen3.style = `
+        `);
+      item.imagen3.preview
+        ? (item.imagen3.style = `background-image: url(${item.imagen3.preview});`)
+        : (item.imagen3.style = `
         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
-        `;
+        `);
 
       //agrego estilos para el fondo sin imagen
       item.imagen1.name === 'add-image.svg'
@@ -88,14 +93,16 @@ export class ItemComponent implements OnInit, OnChanges {
 
       item.imagen1.preview
         ? (item.imagen1.style = `background-image: url(${item.imagen1.preview});`)
-        : item.imagen2.preview
+        : null;
+      item.imagen2.preview
         ? (item.imagen2.style = `background-image: url(${item.imagen2.preview});`)
-        : item.imagen3.preview
+        : null;
+      item.imagen3.preview
         ? (item.imagen3.style = `background-image: url(${item.imagen3.preview});`)
         : null;
     });
 
-    console.log(this.items);
+    this.portfolioService.items = this.items;
   }
 
   getImagePreview(imagePreview: ImagePreview) {
@@ -104,7 +111,6 @@ export class ItemComponent implements OnInit, OnChanges {
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {
-    console.log('item', portfolioItem);
     this.portfolioItemToDelete.emit(portfolioItem);
   }
 }
