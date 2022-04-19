@@ -24,6 +24,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {
+    console.log('portfolio', portfolioItem);
+
     this.portfolioService.items = this.portfolioService.items.filter(
       (item) => item.id !== portfolioItem.id
     );

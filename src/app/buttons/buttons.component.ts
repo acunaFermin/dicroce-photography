@@ -10,7 +10,7 @@ import { Base, Image, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
 
-import { changeTitle } from './helpers';
+import { changeTitle, confirmDelete } from './helpers';
 import { ImagesService } from '../images.service';
 import { callInputFile } from './editar-image';
 
@@ -63,7 +63,13 @@ export class ButtonsComponent implements OnInit {
     //TODO: eliminar el item seleccionado de la base de datos
 
     if (this.title) {
-      this.deletePortfolioItem.emit(this.portfolioItem);
+      confirmDelete(this.portfolioItem).then((eliminar) => {
+        console.log(eliminar);
+        if (eliminar) {
+          console.log('eliminado');
+          this.deletePortfolioItem.emit(this.portfolioItem);
+        }
+      });
 
       return;
     }
