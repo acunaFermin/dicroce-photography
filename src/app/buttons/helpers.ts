@@ -1,8 +1,14 @@
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 
 import Swal from 'sweetalert2';
+import { Image } from '../interfaces/interfaces';
 
-export const changeTitle = async (portfolioItem: PortfolioItem) => {
+export const changeTitle = async (
+  portfolioItem: PortfolioItem,
+  items: PortfolioItem[],
+  title: string,
+  images: Image[]
+) => {
   let inputValue = 'Nueva sección';
   const value = await Swal.fire({
     title: 'Escriba el nombre de la nueva sección',
@@ -12,13 +18,18 @@ export const changeTitle = async (portfolioItem: PortfolioItem) => {
     showCancelButton: true,
     inputValidator: (value) => {
       if (value) {
-        //retorna titulo por referencia
-        portfolioItem.titulo = value;
+        if (!validateTitle(value, items)) {
+          portfolioItem.titulo = value;
 
-        //retorna link por referencia
-        portfolioItem.link = generateLink(value);
+          changeGallery(images, title, value);
 
-        return '';
+          //retorna link por referencia
+          portfolioItem.link = generateLink(value);
+          return '';
+        }
+        showError(value).catch((err) => console.warn('el titulo ya existe!'));
+
+        return 'Ingrese un título';
       } else {
         return 'Ingrese un título';
       }
@@ -26,9 +37,41 @@ export const changeTitle = async (portfolioItem: PortfolioItem) => {
   });
 };
 
+const showError = (title: string) => {
+  return new Promise((resolve, reject) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: `La sección "${title}" ya existe. Ingresá un nombre distinto.`,
+    });
+  });
+};
+
+//validar que no exitsa el titulo
+const validateTitle = (title: string, portfolioItems: PortfolioItem[]) => {
+  for (let item of portfolioItems) {
+    if (item.titulo === title) {
+      return true;
+    }
+  }
+  return false;
+};
+
+//cambiar la galleria de las fotos al cambiar el titulo
+const changeGallery = (images: Image[], oldTitle: string, newTitle: string) => {
+  let oldGallery = oldTitle.replace(/[" "]/gi, '').toLowerCase();
+  let newGallery = newTitle.replace(/[" "]/gi, '').toLowerCase();
+
+  for (let image of images) {
+    if (image.gallery === oldGallery) {
+      image.gallery = newGallery;
+    }
+  }
+};
+
 //generar link
 const generateLink = (title: string) =>
-  `gallery/${title.replace(/[" "]/gi, '').toLowerCase()}`;
+  `/gallery/${title.replace(/[" "]/gi, '').toLowerCase()}`;
 
 export const confirmDelete = (
   portfolioItem: PortfolioItem

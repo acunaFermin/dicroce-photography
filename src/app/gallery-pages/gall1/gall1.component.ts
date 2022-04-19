@@ -33,9 +33,14 @@ export class Gall1Component implements OnInit {
 
   Title() {
     const secciones = this.portfolioService.items;
+    console.log(this.galname);
+    console.log(this.portfolioService.items);
 
     for (let item of secciones) {
+      console.log(item.link, `/gallery/${this.galname}`);
       if (item.link === `/gallery/${this.galname}`) {
+        console.log(item.titulo);
+
         this.title = item.titulo;
         break;
       }

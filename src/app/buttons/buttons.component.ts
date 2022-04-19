@@ -39,7 +39,12 @@ export class ButtonsComponent implements OnInit {
 
   async edit() {
     if (this.title) {
-      changeTitle(this.portfolioItem);
+      changeTitle(
+        this.portfolioItem,
+        this.portfolioService.items,
+        this.title,
+        this.imagesService.images
+      ).catch((err) => console.warn('El titulo ya existe!'));
     }
 
     if (this.image) {

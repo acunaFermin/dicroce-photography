@@ -21,6 +21,7 @@ export class PortfolioComponent implements OnInit {
     this.generateID(newPortfolioItem);
     this.portfolioService.items.unshift({ ...newPortfolioItem });
     this.items = [...this.portfolioService.items];
+    console.log(this.items); //link es null
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {

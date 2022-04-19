@@ -86,6 +86,8 @@ export class ItemComponent implements OnInit, OnChanges {
         ? (item.imagen3.preview = this.imagePreview.imagePreview.base)
         : null;
     });
+
+    console.log(this.items);
   }
 
   getImagePreview(imagePreview: ImagePreview) {
