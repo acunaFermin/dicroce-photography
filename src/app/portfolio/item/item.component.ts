@@ -47,25 +47,34 @@ export class ItemComponent implements OnInit, OnChanges {
     this.items.forEach((item) => {
       //estilo sin imagen
       let addImageStyle = `
-          background-size: 50%;
+          background-size: 30%;
           background-position: center;
           box-shadow: inset 0 0 2px black;`;
 
-      item.imagen1.preview
-        ? (item.imagen1.style = `background-image: url(${item.imagen1.preview});`)
-        : (item.imagen1.style = `
-        background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
-      `);
-      item.imagen2.preview
-        ? (item.imagen2.style = `background-image: url(${item.imagen2.preview});`)
-        : (item.imagen2.style = `
-        background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
-        `);
-      item.imagen3.preview
-        ? (item.imagen3.style = `background-image: url(${item.imagen3.preview});`)
-        : (item.imagen3.style = `
-        background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
-        `);
+      if (item.imagen1.preview) {
+        item.imagen1.style = `background-image: url(${item.imagen1.preview});`;
+        item.imagen1.name = item.imagen1.id;
+      } else {
+        item.imagen1.style = `
+       background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
+     `;
+      }
+      if (item.imagen2.preview) {
+        item.imagen2.style = `background-image: url(${item.imagen2.preview});`;
+        item.imagen2.name = item.imagen2.id;
+      } else {
+        item.imagen2.style = `
+       background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
+     `;
+      }
+      if (item.imagen3.preview) {
+        item.imagen3.style = `background-image: url(${item.imagen3.preview});`;
+        item.imagen3.name = item.imagen3.id;
+      } else {
+        item.imagen3.style = `
+       background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
+     `;
+      }
 
       //agrego estilos para el fondo sin imagen
       item.imagen1.name === 'add-image.svg'

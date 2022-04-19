@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { generateUUID } from '../helpers/uuid';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 import { PortfolioService } from './portfolio.service';
