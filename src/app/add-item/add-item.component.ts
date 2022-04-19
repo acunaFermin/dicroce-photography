@@ -15,6 +15,7 @@ export class AddItemComponent implements OnInit {
   @Output() newPortfolioItem = new EventEmitter<PortfolioItem>();
 
   private _testItem: PortfolioItem = {
+    id: 'id',
     titulo: 'Editar titulo',
     link: null,
     imagen1: {

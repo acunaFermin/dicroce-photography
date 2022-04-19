@@ -4,5 +4,8 @@
     [item]="'portfolio'"
     (newPortfolioItem)="newPortfolioItem($event)"
   ></app-add-item>
-  <app-item [items]="items"></app-item>
+  <app-item
+    [items]="items"
+    (portfolioItemToDelete)="deletePortfolioItem($event)"
+  ></app-item>
 </div>

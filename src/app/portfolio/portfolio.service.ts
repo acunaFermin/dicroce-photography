@@ -7,6 +7,7 @@ import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 export class PortfolioService {
   items: PortfolioItem[] = [
     {
+      id: '1',
       titulo: 'Retrato Beauty',
       link: '/gallery/retratobeauty',
       imagen1: {
@@ -29,6 +30,7 @@ export class PortfolioService {
       },
     },
     {
+      id: '2',
       titulo: 'Fine Art',
       link: '/gallery/fineart',
       imagen1: {
@@ -51,6 +53,7 @@ export class PortfolioService {
       },
     },
     {
+      id: '3',
       titulo: 'Retrato Personalizado',
       link: '/gallery/retratopersonalizado',
       imagen1: {

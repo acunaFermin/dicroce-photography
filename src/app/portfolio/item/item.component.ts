@@ -1,15 +1,15 @@
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 import {
   Component,
+  EventEmitter,
   HostListener,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
-import { PortfolioService } from '../portfolio.service';
 
 @Component({
   selector: 'app-item',
@@ -19,10 +19,11 @@ import { PortfolioService } from '../portfolio.service';
 export class ItemComponent implements OnInit, OnChanges {
   @Input() items: PortfolioItem[] = [];
   @Input() newPortfolioItem!: PortfolioItem;
+  @Output() portfolioItemToDelete = new EventEmitter<PortfolioItem>();
+
   preventRouter: boolean = false;
   imagePreview!: ImagePreview;
-
-  constructor(private portfolioService: PortfolioService) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
@@ -43,28 +44,32 @@ export class ItemComponent implements OnInit, OnChanges {
 
   createItemPortfolio() {
     this.items.forEach((item) => {
-      let addImageStyle = '';
-
       //estilo sin imagen
-      if (!item.link) {
-        addImageStyle = `
+      let addImageStyle = `
           background-size: 50%;
           background-position: center;
           box-shadow: inset 0 0 2px black;`;
-      }
 
       item.imagen1.style = `
         background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
-        ${addImageStyle}        
       `;
       item.imagen2.style = `
         background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
-        ${addImageStyle}
         `;
       item.imagen3.style = `
         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
-        ${addImageStyle}
         `;
+
+      //agrego estilos para el fondo sin imagen
+      item.imagen1.name === 'add-image.svg'
+        ? (item.imagen1.style += addImageStyle)
+        : null;
+      item.imagen2.name === 'add-image.svg'
+        ? (item.imagen2.style += addImageStyle)
+        : null;
+      item.imagen3.name === 'add-image.svg'
+        ? (item.imagen3.style += addImageStyle)
+        : null;
 
       //previsualizacion de imagenes seleccionadas
       if (!this.imagePreview) {
@@ -84,5 +89,10 @@ export class ItemComponent implements OnInit, OnChanges {
   getImagePreview(imagePreview: ImagePreview) {
     this.imagePreview = imagePreview;
     this.createItemPortfolio();
+  }
+
+  deletePortfolioItem(portfolioItem: PortfolioItem) {
+    console.log('item', portfolioItem);
+    this.portfolioItemToDelete.emit(portfolioItem);
   }
 }

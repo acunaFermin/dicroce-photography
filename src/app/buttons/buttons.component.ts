@@ -26,6 +26,7 @@ export class ButtonsComponent implements OnInit {
   @Input() image!: Image;
   @Input() title!: string;
   @Output() deleteImage = new EventEmitter<Image>();
+  @Output() deletePortfolioItem = new EventEmitter<PortfolioItem>();
   @Output() preview = new EventEmitter<ImagePreview>();
 
   constructor(
@@ -60,6 +61,13 @@ export class ButtonsComponent implements OnInit {
   delete() {
     // console.log('delete', this.portfolioItem);
     //TODO: eliminar el item seleccionado de la base de datos
+
+    if (this.title) {
+      this.deletePortfolioItem.emit(this.portfolioItem);
+
+      return;
+    }
+
     this.imagesService.images = this.imagesService.images.filter(
       (image) => image.id !== this.image.id
     );
