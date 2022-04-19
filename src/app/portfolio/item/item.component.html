@@ -55,13 +55,15 @@
         ></app-buttons>
       </span>
     </div>
-    <div class="item-name" [routerLink]="[item.link]">
+    <div class="item-name" [routerLink]="preventRouter ? item.link : null">
       <h2>{{ item.titulo }}</h2>
-      <app-buttons
-        [portfolioItem]="item"
-        [title]="item.titulo"
-        (deletePortfolioItem)="deletePortfolioItem($event)"
-      ></app-buttons>
+      <span class="edit-title" id="edit-btn-title">
+        <app-buttons
+          [portfolioItem]="item"
+          [title]="item.titulo"
+          (deletePortfolioItem)="deletePortfolioItem($event)"
+        ></app-buttons>
+      </span>
     </div>
   </div>
 </div>

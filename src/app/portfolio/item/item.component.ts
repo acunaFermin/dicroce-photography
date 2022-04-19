@@ -37,6 +37,8 @@ export class ItemComponent implements OnInit, OnChanges {
   @HostListener('click', ['$event'])
   @HostListener('touchstart', ['$event'])
   onClick(e: any) {
+    console.log(e);
+
     let target = [e.target.id, e.path[3].id, e.path[2].id];
 
     this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
