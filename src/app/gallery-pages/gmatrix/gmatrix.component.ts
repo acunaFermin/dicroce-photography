@@ -24,8 +24,6 @@ export class GmatrixComponent implements OnInit, OnChanges {
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.images);
-
     this.createGallery();
   }
 
@@ -54,7 +52,6 @@ export class GmatrixComponent implements OnInit, OnChanges {
   }
 
   preview(imagePreview: any) {
-    console.log('gmatrix', imagePreview);
     this.imagePreview.emit(imagePreview);
   }
 }

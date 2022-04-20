@@ -1,7 +1,6 @@
-import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
-
 import Swal from 'sweetalert2';
-import { Image } from '../interfaces/interfaces';
+import { PortfolioItem } from '../../interfaces/portfolio-item.interfaces';
+import { Image } from '../../../interfaces/interfaces';
 
 export const changeTitle = async (
   portfolioItem: PortfolioItem,
@@ -37,16 +36,6 @@ export const changeTitle = async (
   });
 };
 
-const showError = (title: string) => {
-  return new Promise((resolve, reject) => {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: `La sección "${title}" ya existe. Ingresá un nombre distinto.`,
-    });
-  });
-};
-
 //validar que no exitsa el titulo
 const validateTitle = (title: string, portfolioItems: PortfolioItem[]) => {
   for (let item of portfolioItems) {
@@ -76,29 +65,12 @@ const changeGallery = (images: Image[], oldTitle: string, newTitle: string) => {
 const generateLink = (title: string) =>
   `/gallery/${title.replace(/[" "]/gi, '').toLowerCase()}`;
 
-export const confirmDelete = (
-  portfolioItem: PortfolioItem
-): Promise<boolean> => {
-  return new Promise((resolve) => {
+const showError = (title: string) => {
+  return new Promise((resolve, reject) => {
     Swal.fire({
-      title: `Estás seguro de eliminar "${portfolioItem.titulo}"?`,
-      text: 'No lo podras recuperar...',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, quiero borrarlo!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Borrado!',
-          `"${portfolioItem.titulo}" ha sido eliminado`,
-          'success'
-        );
-        resolve(true);
-      } else {
-        resolve(false);
-      }
+      icon: 'error',
+      title: 'Oops...',
+      text: `La sección "${title}" ya existe. Ingresá un nombre distinto.`,
     });
   });
 };

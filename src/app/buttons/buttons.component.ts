@@ -1,17 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Sanitizer,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Base, Image, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
-import { PortfolioService } from '../portfolio/portfolio.service';
 
-import { changeTitle, confirmDelete } from './helpers';
-import { ImagesService } from '../images.service';
 import { callInputFile } from './editar-image';
 
 import { DomSanitizer } from '@angular/platform-browser';
@@ -26,25 +16,17 @@ export class ButtonsComponent implements OnInit {
   @Input() image!: Image;
   @Input() title!: string;
   @Output() deleteImage = new EventEmitter<Image>();
+  @Output() editPortfolioItem = new EventEmitter<PortfolioItem>();
   @Output() deletePortfolioItem = new EventEmitter<PortfolioItem>();
   @Output() preview = new EventEmitter<ImagePreview>();
 
-  constructor(
-    private portfolioService: PortfolioService,
-    private imagesService: ImagesService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {}
 
   async edit() {
     if (this.title) {
-      changeTitle(
-        this.portfolioItem,
-        this.portfolioService.items,
-        this.title,
-        this.imagesService.images
-      ).catch((err) => console.warn('El titulo ya existe!'));
+      this.editPortfolioItem.emit(this.portfolioItem);
     }
 
     if (this.image) {
@@ -58,33 +40,13 @@ export class ButtonsComponent implements OnInit {
     }
   }
 
-  save() {
-    console.log(this.portfolioItem);
-    // TODO: una vez editado el item, guardarlo en la base de datos
-  }
-
   delete() {
     // console.log('delete', this.portfolioItem);
     //TODO: eliminar el item seleccionado de la base de datos
 
-    if (this.title) {
-      confirmDelete(this.portfolioItem).then((eliminar) => {
-        console.log(eliminar);
-        if (eliminar) {
-          console.log('eliminado');
-          this.deletePortfolioItem.emit(this.portfolioItem);
-        }
-      });
+    this.title ? this.deletePortfolioItem.emit(this.portfolioItem) : null;
 
-      return;
-    }
-
-    this.imagesService.images = this.imagesService.images.filter(
-      (image) => image.id !== this.image.id
-    );
-    console.log('emit', this.image);
-
-    this.deleteImage.emit(this.image);
+    this.image ? this.deleteImage.emit(this.image) : null;
   }
 
   extraerBase64($event: any): Promise<Base> {

@@ -12,7 +12,6 @@ export class PortfolioComponent implements OnInit {
   items: PortfolioItem[] = [];
   constructor(private portfolioService: PortfolioService) {
     this.items = [...this.portfolioService.items];
-    console.log(this.items);
   }
 
   ngOnInit(): void {}
@@ -21,12 +20,9 @@ export class PortfolioComponent implements OnInit {
     this.generateID(newPortfolioItem);
     this.portfolioService.items.unshift({ ...newPortfolioItem });
     this.items = [...this.portfolioService.items];
-    console.log(this.items); //link es null
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {
-    console.log('portfolio', portfolioItem);
-
     this.portfolioService.items = this.portfolioService.items.filter(
       (item) => item.id !== portfolioItem.id
     );

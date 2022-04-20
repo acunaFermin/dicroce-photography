@@ -8,10 +8,12 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { confirmDelete } from './helpers/delete-item';
 import { ImagesService } from 'src/app/images.service';
 import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
+import { changeTitle } from './helpers/edit-item';
 
 @Component({
   selector: 'app-item',
@@ -25,7 +27,10 @@ export class ItemComponent implements OnInit, OnChanges {
 
   preventRouter: boolean = false;
   imagePreview!: ImagePreview;
-  constructor(private portfolioService: PortfolioService) {}
+  constructor(
+    private portfolioService: PortfolioService,
+    private imagesService: ImagesService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.createItemPortfolio();
@@ -120,6 +125,20 @@ export class ItemComponent implements OnInit, OnChanges {
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {
-    this.portfolioItemToDelete.emit(portfolioItem);
+    confirmDelete(portfolioItem).then((eliminar) => {
+      if (eliminar) {
+        this.portfolioItemToDelete.emit(portfolioItem);
+      }
+    });
+  }
+
+  editPortfolioItem(portfolioItem: PortfolioItem) {
+    console.log(portfolioItem);
+    changeTitle(
+      portfolioItem,
+      this.portfolioService.items,
+      portfolioItem.titulo,
+      this.imagesService.images
+    ).catch((err) => console.warn('El titulo ya existe!'));
   }
 }
