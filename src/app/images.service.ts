@@ -73,7 +73,18 @@ export class ImagesService {
     },
   ];
 
+  private _testImages: Image = {
+    id: '1',
+    name: 'add-image.svg',
+    gallery: 'beauty',
+    position: 'vertical',
+  };
+
   constructor() {}
+
+  get testImages() {
+    return { ...this._testImages };
+  }
 
   deleteImagesofPortfolioItem(portfolioItem: PortfolioItem) {
     this.images = this.images.filter(

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ImagesService } from '../images.service';
 import { Image } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
+import { PortfolioService } from '../portfolio/portfolio.service';
 import { selectVH } from './helpers';
 @Component({
   selector: 'app-add-item',
@@ -14,42 +15,15 @@ export class AddItemComponent implements OnInit {
   @Output() callGmatrix = new EventEmitter<Image>();
   @Output() newPortfolioItem = new EventEmitter<PortfolioItem>();
 
-  private _testItem: PortfolioItem = {
-    id: 'id',
-    titulo: 'Editar titulo',
-    link: null,
-    imagen1: {
-      id: '',
-      name: 'add-image.svg',
-      gallery: 'icons',
-      position: '',
-    },
-    imagen2: {
-      id: '',
-      name: 'add-image.svg',
-      gallery: 'icons',
-      position: '',
-    },
-    imagen3: {
-      id: '',
-      name: 'add-image.svg',
-      gallery: 'icons',
-      position: '',
-    },
-  };
-
-  get testItem() {
-    return { ...this._testItem };
+  testItem!: PortfolioItem;
+  testImages!: Image;
+  constructor(
+    private imagesService: ImagesService,
+    private portfolioService: PortfolioService
+  ) {
+    this.testItem = this.portfolioService.testItem;
+    this.testImages = this.imagesService.testImages;
   }
-
-  testImages: Image = {
-    id: '1',
-    name: 'add-image.svg',
-    gallery: 'beauty',
-    position: 'vertical',
-  };
-
-  constructor(private imagesService: ImagesService) {}
 
   ngOnInit(): void {}
 

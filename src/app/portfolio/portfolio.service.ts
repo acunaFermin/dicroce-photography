@@ -77,5 +77,33 @@ export class PortfolioService {
     },
   ];
 
+  private _testItem: PortfolioItem = {
+    id: 'id',
+    titulo: 'Editar titulo',
+    link: null,
+    imagen1: {
+      id: '',
+      name: 'add-image.svg',
+      gallery: 'icons',
+      position: '',
+    },
+    imagen2: {
+      id: '',
+      name: 'add-image.svg',
+      gallery: 'icons',
+      position: '',
+    },
+    imagen3: {
+      id: '',
+      name: 'add-image.svg',
+      gallery: 'icons',
+      position: '',
+    },
+  };
+
+  get testItem() {
+    return { ...this._testItem };
+  }
+
   constructor() {}
 }
