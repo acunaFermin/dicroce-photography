@@ -125,15 +125,18 @@ export class ItemComponent implements OnInit, OnChanges {
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {
-    confirmDelete(portfolioItem).then((eliminar) => {
-      if (eliminar) {
-        this.portfolioItemToDelete.emit(portfolioItem);
-      }
-    });
+    confirmDelete(portfolioItem)
+      .then((eliminar) => {
+        if (eliminar) {
+          //elimino el prtfolioItem y las imagenes que tenga dentro
+          this.imagesService.deleteImagesofPortfolioItem(portfolioItem);
+          this.portfolioItemToDelete.emit(portfolioItem);
+        }
+      })
+      .catch((err) => console.log('Hola Mundo!'));
   }
 
   editPortfolioItem(portfolioItem: PortfolioItem) {
-    console.log(portfolioItem);
     changeTitle(
       portfolioItem,
       this.portfolioService.items,

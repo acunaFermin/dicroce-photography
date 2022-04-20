@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Image } from './interfaces/interfaces';
+import { PortfolioItem } from './portfolio/interfaces/portfolio-item.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -70,49 +71,15 @@ export class ImagesService {
       position: 'horizontal',
       preview: null,
     },
-    {
-      id: '10',
-      name: '10.jpg',
-      gallery: 'images',
-      position: 'vertical',
-      preview: null,
-    },
-    {
-      id: '11',
-      name: '11.jpg',
-      gallery: 'images',
-      position: 'vertical',
-      preview: null,
-    },
-    {
-      id: '12',
-      name: '12.jpg',
-      gallery: 'images',
-      position: 'horizontal',
-      preview: null,
-    },
-    {
-      id: '13',
-      name: '13.jpg',
-      gallery: 'images',
-      position: 'vertical',
-      preview: null,
-    },
-    {
-      id: '14',
-      name: '14.jpg',
-      gallery: 'images',
-      position: 'vertical',
-      preview: null,
-    },
-    {
-      id: '15',
-      name: '15.jpg',
-      gallery: 'images',
-      position: 'horizontal',
-      preview: null,
-    },
   ];
 
   constructor() {}
+
+  deleteImagesofPortfolioItem(portfolioItem: PortfolioItem) {
+    this.images = this.images.filter(
+      (image) =>
+        image.gallery !==
+        portfolioItem.titulo.replace(/[" "]/gi, '').toLowerCase()
+    );
+  }
 }

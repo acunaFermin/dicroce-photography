@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { PortfolioItem } from 'src/app/portfolio/interfaces/portfolio-item.interfaces';
 import { Image } from '../../interfaces/interfaces';
 @Component({
   selector: 'app-gmatrix',
@@ -53,5 +54,9 @@ export class GmatrixComponent implements OnInit, OnChanges {
 
   preview(imagePreview: any) {
     this.imagePreview.emit(imagePreview);
+  }
+
+  deleteImagesOfPortfolioItem(portfolioItem: PortfolioItem) {
+    console.log('gmatrix!', portfolioItem);
   }
 }

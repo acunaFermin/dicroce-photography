@@ -30,6 +30,8 @@ export class ButtonsComponent implements OnInit {
     }
 
     if (this.image) {
+      console.log(this.image);
+
       callInputFile()
         .then((file) => this.extraerBase64(file.value))
         .then((imagePreview) => {
