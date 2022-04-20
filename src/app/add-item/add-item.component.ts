@@ -14,7 +14,6 @@ export class AddItemComponent implements OnInit {
   @Output() newPortfolioItem = new EventEmitter<PortfolioItem>();
 
   testItem!: PortfolioItem;
-  testImages!: Image;
   constructor(private portfolioService: PortfolioService) {
     this.testItem = this.portfolioService.testItem;
   }

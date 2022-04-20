@@ -56,30 +56,21 @@ export class ItemComponent implements OnInit, OnChanges {
           background-position: center;
           box-shadow: inset 0 0 2px black;`;
 
-      if (item.imagen1.preview) {
-        item.imagen1.style = `background-image: url(${item.imagen1.preview});`;
-        item.imagen1.name = item.imagen1.id;
-      } else {
-        item.imagen1.style = `
-       background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
-     `;
-      }
-      if (item.imagen2.preview) {
-        item.imagen2.style = `background-image: url(${item.imagen2.preview});`;
-        item.imagen2.name = item.imagen2.id;
-      } else {
-        item.imagen2.style = `
-       background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
-     `;
-      }
-      if (item.imagen3.preview) {
-        item.imagen3.style = `background-image: url(${item.imagen3.preview});`;
-        item.imagen3.name = item.imagen3.id;
-      } else {
-        item.imagen3.style = `
-       background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
-     `;
-      }
+      !item.imagen1.style
+        ? (item.imagen1.style = `
+         background-image: url("assets/${item.imagen1.gallery}/${item.imagen1.name}");
+       `)
+        : null;
+      !item.imagen2.style
+        ? (item.imagen2.style = `
+         background-image: url("assets/${item.imagen2.gallery}/${item.imagen2.name}");
+       `)
+        : null;
+      !item.imagen3.style
+        ? (item.imagen3.style = `
+         background-image: url("assets/${item.imagen3.gallery}/${item.imagen3.name}");
+       `)
+        : null;
 
       //agrego estilos para el fondo sin imagen
       item.imagen1.name === 'add-image.svg'
@@ -91,29 +82,6 @@ export class ItemComponent implements OnInit, OnChanges {
       item.imagen3.name === 'add-image.svg'
         ? (item.imagen3.style += addImageStyle)
         : null;
-
-      //previsualizacion de imagenes seleccionadas
-      if (!this.imagePreview) {
-        return;
-      }
-
-      item.imagen1.id === this.imagePreview.id
-        ? (item.imagen1.preview = this.imagePreview.imagePreview.base)
-        : item.imagen2.id === this.imagePreview.id
-        ? (item.imagen2.preview = this.imagePreview.imagePreview.base)
-        : item.imagen3.id === this.imagePreview.id
-        ? (item.imagen3.preview = this.imagePreview.imagePreview.base)
-        : null;
-
-      item.imagen1.preview
-        ? (item.imagen1.style = `background-image: url(${item.imagen1.preview});`)
-        : null;
-      item.imagen2.preview
-        ? (item.imagen2.style = `background-image: url(${item.imagen2.preview});`)
-        : null;
-      item.imagen3.preview
-        ? (item.imagen3.style = `background-image: url(${item.imagen3.preview});`)
-        : null;
     });
 
     this.portfolioService.items = this.items;
@@ -121,7 +89,8 @@ export class ItemComponent implements OnInit, OnChanges {
 
   getImagePreview(imagePreview: ImagePreview) {
     this.imagePreview = imagePreview;
-    this.createItemPortfolio();
+    this.portfolioService.setImage(imagePreview);
+    this.portfolioService.items = this.items;
   }
 
   deletePortfolioItem(portfolioItem: PortfolioItem) {

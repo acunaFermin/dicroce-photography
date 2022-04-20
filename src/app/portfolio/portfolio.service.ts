@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 
 @Injectable({
@@ -106,4 +107,16 @@ export class PortfolioService {
   }
 
   constructor() {}
+
+  setImage(imagePreview: ImagePreview) {
+    for (let item of this.items) {
+      item.imagen1.id === imagePreview.id
+        ? (item.imagen1.style = `background-image: url(${imagePreview.imagePreview.base});`)
+        : item.imagen2.id === imagePreview.id
+        ? (item.imagen2.style = `background-image: url(${imagePreview.imagePreview.base});`)
+        : item.imagen3.id === imagePreview.id
+        ? (item.imagen3.style = `background-image: url(${imagePreview.imagePreview.base});`)
+        : null;
+    }
+  }
 }
