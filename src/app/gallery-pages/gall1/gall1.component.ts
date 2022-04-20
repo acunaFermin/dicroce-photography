@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { generateUUID } from 'src/app/helpers/uuid';
 import { ImagesService } from 'src/app/images.service';
 import { Image } from 'src/app/interfaces/interfaces';
 import { PortfolioService } from 'src/app/portfolio/portfolio.service';
+import { selectVH } from './helpers/add-image';
 
 @Component({
   selector: 'app-gall1',
@@ -13,12 +15,14 @@ export class Gall1Component implements OnInit {
   images: Image[] = [];
   title: string = '';
   galname: string = '';
-
+  testImage: Image;
   constructor(
     private imageService: ImagesService,
     private portfolioService: PortfolioService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.testImage = this.imageService.testImages;
+  }
 
   ngOnInit(): void {
     //obtengo el nombre de la galeria del url
@@ -42,9 +46,7 @@ export class Gall1Component implements OnInit {
     }
   }
 
-  createGallery(addImage?: Image, imgPreview?: any) {
-    addImage ? this.imageService.images.unshift(addImage) : null;
-
+  createGallery(imgPreview?: any) {
     let images = this.imageService.images.filter(
       (img) => img.gallery === this.galname
     );
@@ -64,12 +66,28 @@ export class Gall1Component implements OnInit {
     this.images = images;
   }
 
-  callFromGmatrix(addImage?: Image) {
-    this.createGallery(addImage);
+  addImage() {
+    //preguntyar si vertical u horizontal
+    let position = selectVH();
+
+    position.then((position) => {
+      this.testImage.id = generateUUID();
+      this.testImage.position = position;
+      this.testImage.style = `
+        background-image: url("assets/icons/add-image.svg");
+        background-size: 20%;
+        background-repeat: no-repeat;
+        background-position: center;
+        box-shadow: inset 0 0 2px black;`;
+      this.testImage.gallery = this.galname;
+
+      this.imageService.images.unshift({ ...this.testImage });
+      this.createGallery();
+    });
   }
 
   imagePreview(preview: any) {
-    this.createGallery(undefined, preview);
+    this.createGallery(preview);
   }
 
   deleteImage(image: Image) {

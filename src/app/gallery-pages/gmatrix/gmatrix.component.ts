@@ -19,7 +19,7 @@ export class GmatrixComponent implements OnInit, OnChanges {
   @Input() galname: string = '';
   @Input() images: Image[] = [];
   @Input() imgPreview: any;
-  @Output() callGall1 = new EventEmitter<Image>();
+  @Output() addImage = new EventEmitter<Image>();
   @Output() deleteImage = new EventEmitter<Image>();
   @Output() imagePreview = new EventEmitter<any>();
 
@@ -44,8 +44,8 @@ export class GmatrixComponent implements OnInit, OnChanges {
     this.createGallery();
   }
 
-  callFromAddItem(call: Image) {
-    this.callGall1.emit(call);
+  addImg() {
+    this.addImage.emit();
   }
 
   deleteImg(image: Image) {
