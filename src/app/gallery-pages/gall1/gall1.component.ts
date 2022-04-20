@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { generateUUID } from 'src/app/helpers/uuid';
 import { ImagesService } from 'src/app/images.service';
-import { Image } from 'src/app/interfaces/interfaces';
+import { Image, ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioService } from 'src/app/portfolio/portfolio.service';
 import { selectVH } from './helpers/add-image';
 
@@ -46,21 +46,23 @@ export class Gall1Component implements OnInit {
     }
   }
 
-  createGallery(imgPreview?: any) {
+  createGallery(imgPreview?: ImagePreview) {
     let images = this.imageService.images.filter(
       (img) => img.gallery === this.galname
     );
 
     this.images = images;
 
-    if (!imgPreview) {
-      return;
-    }
+    if (!imgPreview) return;
 
     images.forEach((image) => {
-      image.id === imgPreview.id
-        ? (image.preview = imgPreview.imagePreview)
-        : 'null';
+      if (image.id === imgPreview.id) {
+        // image.preview = imgPreview.imagePreview;
+        image.style = `background-image: url(${imgPreview.imagePreview.base});`;
+
+        //guardo imagen editada para enviar a db
+        this.imageService.saveEditedImage({ ...image });
+      }
     });
 
     this.images = images;
@@ -80,13 +82,14 @@ export class Gall1Component implements OnInit {
         background-position: center;
         box-shadow: inset 0 0 2px black;`;
       this.testImage.gallery = this.galname;
-
       this.imageService.images.unshift({ ...this.testImage });
       this.createGallery();
+      //guardo los cambios para enviar a la db
+      this.imageService.saveImage({ ...this.testImage });
     });
   }
 
-  imagePreview(preview: any) {
+  imagePreview(preview: ImagePreview) {
     this.createGallery(preview);
   }
 

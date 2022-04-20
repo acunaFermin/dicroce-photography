@@ -9,19 +9,20 @@ export class ImagesService {
   //respuesta del futuro backend
   images: Image[] = [
     {
-      id: '1',
-      name: '1.jpg',
-      gallery: 'retratobeauty',
-      position: 'vertical',
-      preview: null,
-    },
-    {
       id: '2',
       name: '2.jpg',
       gallery: 'retratobeauty',
       position: 'vertical',
       preview: null,
     },
+    {
+      id: '1',
+      name: '1.jpg',
+      gallery: 'retratobeauty',
+      position: 'vertical',
+      preview: null,
+    },
+
     {
       id: '3',
       name: '3.jpg',
@@ -43,6 +44,7 @@ export class ImagesService {
       position: 'horizontal',
       preview: null,
     },
+
     {
       id: '6',
       name: '6.jpg',
@@ -57,13 +59,7 @@ export class ImagesService {
       position: 'horizontal',
       preview: null,
     },
-    {
-      id: '8',
-      name: '8.jpg',
-      gallery: 'retratopersonalizado',
-      position: 'horizontal',
-      preview: null,
-    },
+
     {
       id: '9',
       name: '9.jpg',
@@ -80,6 +76,10 @@ export class ImagesService {
     position: 'vertical',
   };
 
+  createdImages: Image[] = [];
+  eliminatedImages: Image[] = [];
+  editatedImages: Image[] = [];
+
   constructor() {}
 
   get testImages() {
@@ -92,5 +92,69 @@ export class ImagesService {
         image.gallery !==
         portfolioItem.titulo.replace(/[" "]/gi, '').toLowerCase()
     );
+  }
+
+  //imagenes que todavia no existen en la db
+  saveImage(image: Image) {
+    this.createdImages.unshift(image);
+    console.log('createdImages', this.createdImages);
+  }
+
+  //imagenes que ya existen en la db, pero fueron editadas
+  saveEditedImage(image: Image) {
+    //analizo si se quiere editar una imagen que ha sido creada, y que no existe en la db
+    let i = 0;
+    for (let img of this.createdImages) {
+      if (img.id === image.id) {
+        //guardo los cambios en el createdImages
+        this.createdImages.splice(i, 1, image);
+
+        console.log('editatedImages', this.editatedImages);
+        console.log('createdImages', this.createdImages);
+
+        return;
+      }
+      i++;
+    }
+
+    //analizo si la imagen ya existe en el array y la reemplazo
+    if (this.editatedImages.length > 0) {
+      i = 0;
+      for (let img of this.editatedImages) {
+        if (img.id === image.id) {
+          this.editatedImages.splice(i, 1, image);
+          console.log('editatedImages', this.editatedImages);
+
+          return;
+        }
+        i++;
+      }
+    }
+    this.editatedImages.unshift(image);
+
+    console.log('editatedImages', this.editatedImages);
+  }
+
+  //imagenes que hay que sacar de la db
+  eliminateImage(image: Image) {
+    //elimino imagenes creadas
+    if (this.createdImages.length > 0) {
+      this.createdImages = this.createdImages.filter(
+        (img) => img.id !== image.id
+      );
+      console.log('createdImages', this.createdImages);
+    }
+
+    //elimino imagenes editadas
+    if (this.editatedImages.length > 0) {
+      this.editatedImages = this.editatedImages.filter(
+        (img) => img.id !== image.id
+      );
+
+      console.log('elim editatedImages', this.editatedImages);
+    }
+
+    this.eliminatedImages.unshift(image);
+    console.log('eliminatedImages', this.eliminatedImages);
   }
 }

@@ -5,7 +5,6 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { PortfolioItem } from 'src/app/portfolio/interfaces/portfolio-item.interfaces';
 import { Image } from '../../interfaces/interfaces';
@@ -24,20 +23,25 @@ export class GmatrixComponent implements OnInit, OnChanges {
   @Output() imagePreview = new EventEmitter<any>();
 
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.createGallery();
   }
 
   createGallery() {
-    this.images.forEach((img) => {
+    // this.images.forEach((img) => {
+
+    for (let img of this.images) {
+      if (img.style) continue;
+
       img.name !== 'add-image.svg'
         ? (img.style = `background-image: url("assets/images/${img.name}");`)
         : null;
 
-      img.preview
-        ? (img.style = `background-image: url(${img.preview.base});`)
-        : null;
-    });
+      // img.preview
+      //   ? (img.style = `background-image: url(${img.preview.base});`)
+      //   : null;
+      // });
+    }
   }
 
   ngOnInit(): void {

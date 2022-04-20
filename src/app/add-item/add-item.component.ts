@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Image } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
 @Component({
