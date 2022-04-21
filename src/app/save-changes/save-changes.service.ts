@@ -7,12 +7,14 @@ import { SaveGalleryImages, SavePortfolioItems } from './interfaces';
  providedIn: 'root',
 })
 export class SaveChangesService {
- savePortfolioItems: SavePortfolioItems;
+ savePortfolioItems!: SavePortfolioItems;
  saveGalleryImages!: SaveGalleryImages;
  constructor(
   private ImagesService: ImagesService,
   private portfolioService: PortfolioService
- ) {
+ ) {}
+
+ callSavedItems() {
   this.savePortfolioItems = {
    createdItems: this.portfolioService.createdItems,
    editatedItems: this.portfolioService.editatedItems,

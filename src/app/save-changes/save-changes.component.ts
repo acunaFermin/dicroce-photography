@@ -12,6 +12,7 @@ export class SaveChangesComponent implements OnInit {
  ngOnInit(): void {}
 
  saveChanges() {
+  this.saveChangesService.callSavedItems();
   console.log('images', this.saveChangesService.saveGalleryImages);
   console.log('portfolio', this.saveChangesService.savePortfolioItems);
  }
