@@ -1,11 +1,12 @@
 <div class="container">
-	<h1>Portfolio</h1>
-	<app-add-item
-		[item]="'portfolio'"
-		(newPortfolioItem)="newPortfolioItem($event)"
-	></app-add-item>
-	<app-item
-		[items]="items"
-		(portfolioItemToDelete)="deletePortfolioItem($event)"
-	></app-item>
+ <h1>Portfolio</h1>
+ <app-save-changes></app-save-changes>
+ <app-add-item
+  [item]="'portfolio'"
+  (newPortfolioItem)="newPortfolioItem($event)"
+ ></app-add-item>
+ <app-item
+  [items]="items"
+  (portfolioItemToDelete)="deletePortfolioItem($event)"
+ ></app-item>
 </div>

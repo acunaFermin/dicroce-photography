@@ -12,18 +12,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    PortfolioModule,
-    NavbarModule,
-    GalleryModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-  ],
-  exports: [],
-  providers: [],
-  bootstrap: [AppComponent],
+ declarations: [AppComponent],
+ imports: [
+  BrowserModule,
+  AppRoutingModule,
+  PortfolioModule,
+  NavbarModule,
+  GalleryModule,
+  BrowserAnimationsModule,
+  MatFormFieldModule,
+ ],
+ exports: [],
+ providers: [],
+ bootstrap: [AppComponent],
 })
 export class AppModule {}

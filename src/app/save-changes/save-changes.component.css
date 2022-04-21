@@ -4,7 +4,7 @@
  margin-bottom: 50px;
 }
 
-.add-item {
+.save-changes {
  position: relative;
  width: 60px;
  height: 60px;
@@ -18,7 +18,7 @@
  cursor: pointer;
 }
 
-.add-image {
+.save-img {
  position: relative;
  width: 50%;
  cursor: pointer;
@@ -29,7 +29,7 @@
   margin-bottom: 7vw;
  }
 
- .add-item {
+ .save-changes {
   width: 7vw;
   height: 7vw;
   box-shadow: 0 3px 5px #00000085;
