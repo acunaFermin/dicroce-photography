@@ -4,41 +4,47 @@ import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 import { PortfolioService } from './portfolio.service';
 
 @Component({
-  selector: 'app-portfolio',
-  templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css'],
+	selector: 'app-portfolio',
+	templateUrl: './portfolio.component.html',
+	styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
-  items: PortfolioItem[] = [];
-  constructor(private portfolioService: PortfolioService) {
-    this.items = [...this.portfolioService.items];
-  }
+	items: PortfolioItem[] = [];
+	constructor(private portfolioService: PortfolioService) {
+		this.items = [...this.portfolioService.items];
+	}
 
-  ngOnInit(): void {}
+	ngOnInit(): void {}
 
-  newPortfolioItem(newPortfolioItem: PortfolioItem) {
-    this.generateID(newPortfolioItem);
-    this.portfolioService.items.unshift({ ...newPortfolioItem });
-    this.items = [...this.portfolioService.items];
-  }
+	newPortfolioItem(newPortfolioItem: PortfolioItem) {
+		this.generateID(newPortfolioItem);
+		this.portfolioService.items.unshift({ ...newPortfolioItem });
+		this.items = [...this.portfolioService.items];
 
-  deletePortfolioItem(portfolioItem: PortfolioItem) {
-    this.portfolioService.items = this.portfolioService.items.filter(
-      (item) => item.id !== portfolioItem.id
-    );
-    this.items = [...this.portfolioService.items];
-  }
+		//guardo los datos para enviar  la db
+		this.portfolioService.saveItem(newPortfolioItem);
+	}
 
-  generateID(newPortfolioItem: PortfolioItem) {
-    newPortfolioItem.id = generateUUID();
-    newPortfolioItem.imagen1.id = generateUUID();
-    newPortfolioItem.imagen2.id = generateUUID();
-    newPortfolioItem.imagen3.id = generateUUID();
+	deletePortfolioItem(portfolioItem: PortfolioItem) {
+		this.portfolioService.items = this.portfolioService.items.filter(
+			(item) => item.id !== portfolioItem.id
+		);
+		this.items = [...this.portfolioService.items];
 
-    //envio por valor las imagenes
+		//guardo los datos para enviar  la db
+		this.portfolioService.eliminateItem(portfolioItem);
+	}
 
-    newPortfolioItem.imagen1 = { ...newPortfolioItem.imagen1 };
-    newPortfolioItem.imagen2 = { ...newPortfolioItem.imagen2 };
-    newPortfolioItem.imagen3 = { ...newPortfolioItem.imagen3 };
-  }
+	generateID(newPortfolioItem: PortfolioItem) {
+		newPortfolioItem.id = generateUUID();
+		newPortfolioItem.imagen1.id = generateUUID();
+		newPortfolioItem.imagen2.id = generateUUID();
+		newPortfolioItem.imagen3.id = generateUUID();
+
+		//envio por valor las imagenes
+
+		newPortfolioItem.imagen1 = { ...newPortfolioItem.imagen1 };
+		newPortfolioItem.imagen2 = { ...newPortfolioItem.imagen2 };
+		newPortfolioItem.imagen3 = { ...newPortfolioItem.imagen3 };
+	}
 }

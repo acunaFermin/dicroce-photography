@@ -6,7 +6,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { PortfolioItem } from 'src/app/portfolio/interfaces/portfolio-item.interfaces';
 import { Image } from '../../interfaces/interfaces';
 @Component({
   selector: 'app-gmatrix',
@@ -28,19 +27,12 @@ export class GmatrixComponent implements OnInit, OnChanges {
   }
 
   createGallery() {
-    // this.images.forEach((img) => {
-
     for (let img of this.images) {
       if (img.style) continue;
 
       img.name !== 'add-image.svg'
         ? (img.style = `background-image: url("assets/images/${img.name}");`)
         : null;
-
-      // img.preview
-      //   ? (img.style = `background-image: url(${img.preview.base});`)
-      //   : null;
-      // });
     }
   }
 
@@ -58,9 +50,5 @@ export class GmatrixComponent implements OnInit, OnChanges {
 
   preview(imagePreview: any) {
     this.imagePreview.emit(imagePreview);
-  }
-
-  deleteImagesOfPortfolioItem(portfolioItem: PortfolioItem) {
-    console.log('gmatrix!', portfolioItem);
   }
 }

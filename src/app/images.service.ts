@@ -76,6 +76,7 @@ export class ImagesService {
     position: 'vertical',
   };
 
+  //elementos a enviar si se deciden guardar los cambios
   createdImages: Image[] = [];
   eliminatedImages: Image[] = [];
   editatedImages: Image[] = [];
@@ -87,17 +88,22 @@ export class ImagesService {
   }
 
   deleteImagesofPortfolioItem(portfolioItem: PortfolioItem) {
-    this.images = this.images.filter(
-      (image) =>
+    this.images = this.images.filter((image) => {
+      if (
         image.gallery !==
         portfolioItem.titulo.replace(/[" "]/gi, '').toLowerCase()
-    );
+      ) {
+        return true;
+      } else {
+        this.eliminateImage(image);
+        return false;
+      }
+    });
   }
 
   //imagenes que todavia no existen en la db
   saveImage(image: Image) {
     this.createdImages.unshift(image);
-    console.log('createdImages', this.createdImages);
   }
 
   //imagenes que ya existen en la db, pero fueron editadas
@@ -108,10 +114,6 @@ export class ImagesService {
       if (img.id === image.id) {
         //guardo los cambios en el createdImages
         this.createdImages.splice(i, 1, image);
-
-        console.log('editatedImages', this.editatedImages);
-        console.log('createdImages', this.createdImages);
-
         return;
       }
       i++;
@@ -123,16 +125,12 @@ export class ImagesService {
       for (let img of this.editatedImages) {
         if (img.id === image.id) {
           this.editatedImages.splice(i, 1, image);
-          console.log('editatedImages', this.editatedImages);
-
           return;
         }
         i++;
       }
     }
     this.editatedImages.unshift(image);
-
-    console.log('editatedImages', this.editatedImages);
   }
 
   //imagenes que hay que sacar de la db
@@ -142,7 +140,7 @@ export class ImagesService {
       this.createdImages = this.createdImages.filter(
         (img) => img.id !== image.id
       );
-      console.log('createdImages', this.createdImages);
+      return;
     }
 
     //elimino imagenes editadas
@@ -150,11 +148,9 @@ export class ImagesService {
       this.editatedImages = this.editatedImages.filter(
         (img) => img.id !== image.id
       );
-
-      console.log('elim editatedImages', this.editatedImages);
     }
 
     this.eliminatedImages.unshift(image);
-    console.log('eliminatedImages', this.eliminatedImages);
+    console.log(this.eliminatedImages);
   }
 }

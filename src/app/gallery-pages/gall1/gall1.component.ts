@@ -94,11 +94,12 @@ export class Gall1Component implements OnInit {
   }
 
   deleteImage(image: Image) {
-    console.log('gall1', image);
-
     this.imageService.images = this.imageService.images.filter(
       (img) => img.id !== image.id
     );
+
+    //imagenes a eliminar de la db
+    this.imageService.eliminateImage(image);
 
     this.createGallery();
   }
