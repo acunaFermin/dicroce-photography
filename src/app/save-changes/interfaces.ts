@@ -12,3 +12,8 @@ export interface SaveGalleryImages {
  eliminatedImages: Image[];
  editatedImages: Image[];
 }
+
+export interface SavedChanges {
+ savePortfolioItems: SavePortfolioItems;
+ saveGalleryImages: SaveGalleryImages;
+}

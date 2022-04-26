@@ -1,5 +1,13 @@
-<div class="container">
- <div (click)="saveChanges()" class="save-changes">
-  <img class="save-img" src="assets/icons/save.svg" />
- </div>
+<div *ngIf="this.saveChangesService.changesStatus" class="title container">
+	<h3>Cambios sin guardar</h3>
+</div>
+
+<div *ngIf="this.saveChangesService.changesStatus" class="container">
+	<div (click)="saveChanges()" class="save-changes">
+		<img class="save-img" src="assets/icons/save.svg" />
+	</div>
+
+	<div (click)="discardChanges()" class="save-changes">
+		<img class="save-img" src="assets/icons/reset.svg" />
+	</div>
 </div>

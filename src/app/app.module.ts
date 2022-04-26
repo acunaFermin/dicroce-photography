@@ -10,20 +10,23 @@ import { GalleryModule } from './gallery-pages/gallery.module';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImagesService } from './images.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
- declarations: [AppComponent],
- imports: [
-  BrowserModule,
-  AppRoutingModule,
-  PortfolioModule,
-  NavbarModule,
-  GalleryModule,
-  BrowserAnimationsModule,
-  MatFormFieldModule,
- ],
- exports: [],
- providers: [],
- bootstrap: [AppComponent],
+	declarations: [AppComponent],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		PortfolioModule,
+		NavbarModule,
+		GalleryModule,
+		BrowserAnimationsModule,
+		MatFormFieldModule,
+		HttpClientModule,
+	],
+	exports: [],
+	providers: [ImagesService],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}

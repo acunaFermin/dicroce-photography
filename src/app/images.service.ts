@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Image } from './interfaces/interfaces';
 import { PortfolioItem } from './portfolio/interfaces/portfolio-item.interfaces';
 
@@ -14,6 +16,7 @@ export class ImagesService {
 			gallery: 'retratobeauty',
 			position: 'vertical',
 			preview: null,
+			index: 1,
 		},
 		{
 			id: '1',
@@ -21,6 +24,7 @@ export class ImagesService {
 			gallery: 'retratobeauty',
 			position: 'vertical',
 			preview: null,
+			index: 2,
 		},
 
 		{
@@ -29,6 +33,7 @@ export class ImagesService {
 			gallery: 'retratobeauty',
 			position: 'horizontal',
 			preview: null,
+			index: 3,
 		},
 		{
 			id: '4',
@@ -36,6 +41,7 @@ export class ImagesService {
 			gallery: 'fineart',
 			position: 'horizontal',
 			preview: null,
+			index: 4,
 		},
 		{
 			id: '5',
@@ -43,6 +49,7 @@ export class ImagesService {
 			gallery: 'fineart',
 			position: 'horizontal',
 			preview: null,
+			index: 5,
 		},
 
 		{
@@ -51,6 +58,7 @@ export class ImagesService {
 			gallery: 'fineart',
 			position: 'vertical',
 			preview: null,
+			index: 6,
 		},
 		{
 			id: '7',
@@ -58,6 +66,7 @@ export class ImagesService {
 			gallery: 'retratopersonalizado',
 			position: 'horizontal',
 			preview: null,
+			index: 7,
 		},
 
 		{
@@ -66,6 +75,7 @@ export class ImagesService {
 			gallery: 'retratopersonalizado',
 			position: 'horizontal',
 			preview: null,
+			index: 8,
 		},
 	];
 
@@ -74,17 +84,31 @@ export class ImagesService {
 		name: 'add-image.svg',
 		gallery: 'beauty',
 		position: 'vertical',
+		index: 0,
 	};
 
 	//elementos a enviar si se deciden guardar los cambios
 	createdImages: Image[] = [];
 	eliminatedImages: Image[] = [];
 	editatedImages: Image[] = [];
+	imageIndex: number = 0;
+	updateData: EventEmitter<void> = new EventEmitter();
+	changesStatus: EventEmitter<boolean> = new EventEmitter();
 
-	constructor() {}
+	constructor(private http: HttpClient) {}
 
 	get testImages() {
 		return { ...this._testImages };
+	}
+
+	getImagesDB() {
+		return this.http
+			.get<Image[]>('http://localhost:8000/api/portfolio/')
+			.subscribe((data) => {
+				console.log('images service!', data);
+				this.images.unshift(...data);
+				this.updateData.emit();
+			});
 	}
 
 	deleteImagesofPortfolioItem(portfolioItem: PortfolioItem) {
@@ -100,9 +124,24 @@ export class ImagesService {
 		});
 	}
 
+	setIndexOfNewImage() {
+		//primero obtener el indice maximo
+		let maxIndex = 0;
+		for (let image of this.images) {
+			if (image.index > maxIndex) {
+				maxIndex = image.index;
+			}
+		}
+
+		return maxIndex + 1;
+	}
+
 	//imagenes que todavia no existen en la db
 	saveImage(image: Image) {
 		this.createdImages.unshift(image);
+		this.notifyChanges();
+
+		console.log(this.createdImages);
 	}
 
 	//imagenes que ya existen en la db, pero fueron editadas
@@ -113,6 +152,8 @@ export class ImagesService {
 			if (img.id === image.id) {
 				//guardo los cambios en el createdImages
 				this.createdImages.splice(i, 1, image);
+				this.notifyChanges();
+
 				return;
 			}
 			i++;
@@ -124,12 +165,15 @@ export class ImagesService {
 			for (let img of this.editatedImages) {
 				if (img.id === image.id) {
 					this.editatedImages.splice(i, 1, image);
+					this.notifyChanges();
+
 					return;
 				}
 				i++;
 			}
 		}
 		this.editatedImages.unshift(image);
+		this.notifyChanges();
 	}
 
 	//imagenes que hay que sacar de la db
@@ -153,5 +197,16 @@ export class ImagesService {
 		}
 
 		this.eliminatedImages.unshift(image);
+		this.notifyChanges();
+	}
+	//notifico que hay cambios
+	notifyChanges() {
+		this.createdImages.length > 0
+			? this.changesStatus.emit(true)
+			: this.eliminatedImages.length > 0
+			? this.changesStatus.emit(true)
+			: this.editatedImages.length > 0
+			? this.changesStatus.emit(true)
+			: this.changesStatus.emit(false);
 	}
 }
