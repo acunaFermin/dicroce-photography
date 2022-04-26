@@ -36,7 +36,6 @@ export class SaveChangesService {
 		this.ImagesService.eliminatedImages = [];
 
 		this.changesStatus = false;
-		window.location.reload();
 	}
 
 	callSavedItems() {

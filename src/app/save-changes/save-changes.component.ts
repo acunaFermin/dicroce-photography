@@ -19,5 +19,6 @@ export class SaveChangesComponent implements OnInit {
 
 	discardChanges() {
 		this.saveChangesService.clearSendedItems();
+		window.location.reload();
 	}
 }
