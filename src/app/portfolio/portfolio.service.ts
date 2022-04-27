@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 
@@ -122,6 +122,7 @@ export class PortfolioService {
 	createdItems: PortfolioItem[] = [];
 	eliminatedItems: PortfolioItem[] = [];
 	editatedItems: PortfolioItem[] = [];
+	changesStatus: EventEmitter<boolean> = new EventEmitter();
 
 	constructor() {}
 
@@ -164,6 +165,7 @@ export class PortfolioService {
 	//imagenes que todavia no existen en la db
 	saveItem(item: PortfolioItem) {
 		this.createdItems.unshift(item);
+		this.notifyChanges();
 	}
 
 	//imagenes que ya existen en la db, pero fueron editadas
@@ -174,6 +176,7 @@ export class PortfolioService {
 			if (itm.id === item.id) {
 				//guardo los cambios en el createdItems
 				this.createdItems.splice(i, 1, item);
+				this.notifyChanges();
 				return;
 			}
 			i++;
@@ -185,12 +188,14 @@ export class PortfolioService {
 			for (let itm of this.editatedItems) {
 				if (itm.id === item.id) {
 					this.editatedItems.splice(i, 1, item);
+					this.notifyChanges();
 					return;
 				}
 				i++;
 			}
 		}
 		this.editatedItems.unshift(item);
+		this.notifyChanges();
 	}
 
 	//imagenes que hay que sacar de la db
@@ -203,7 +208,7 @@ export class PortfolioService {
 				(itm) => itm.id !== item.id,
 				(eliminatedCreatedItem = item)
 			);
-
+			this.notifyChanges();
 			if (eliminatedCreatedItem) return;
 		}
 
@@ -213,5 +218,17 @@ export class PortfolioService {
 		}
 
 		this.eliminatedItems.unshift(item);
+		this.notifyChanges();
+	}
+
+	//notifico que hay cambios
+	notifyChanges() {
+		this.createdItems.length > 0
+			? this.changesStatus.emit(true)
+			: this.eliminatedItems.length > 0
+			? this.changesStatus.emit(true)
+			: this.editatedItems.length > 0
+			? this.changesStatus.emit(true)
+			: this.changesStatus.emit(false);
 	}
 }

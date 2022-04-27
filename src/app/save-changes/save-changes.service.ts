@@ -25,6 +25,9 @@ export class SaveChangesService {
 		this.ImagesService.changesStatus.subscribe((data) => {
 			this.changesStatus = data;
 		});
+		this.portfolioService.changesStatus.subscribe((data) => {
+			this.changesStatus = data;
+		});
 	}
 
 	clearSendedItems() {

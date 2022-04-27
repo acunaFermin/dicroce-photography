@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Image } from './interfaces/interfaces';
 import { PortfolioItem } from './portfolio/interfaces/portfolio-item.interfaces';
 
