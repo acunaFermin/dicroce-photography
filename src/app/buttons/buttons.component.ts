@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Base, Image, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 
-import { callInputFile } from './editar-image';
+import { callInputFile, extension } from './editar-image';
 
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -30,11 +30,23 @@ export class ButtonsComponent implements OnInit {
 		}
 
 		if (this.image) {
+			let imgFile: any;
+			let ext: string = '';
 			callInputFile()
-				.then((file) => this.extraerBase64(file.value))
+				.then((file) => {
+					imgFile = file.value;
+					ext = extension(file.value.name);
+					return this.extraerBase64(file.value);
+				})
 				.then((imagePreview) => {
 					let base: Base = imagePreview;
-					this.preview.emit({ imagePreview: base, id: this.image.id });
+
+					this.preview.emit({
+						id: this.image.id,
+						imagePreview: base,
+						file: imgFile,
+						ext,
+					});
 				})
 				.catch((err) => console.warn('cancelado'));
 		}

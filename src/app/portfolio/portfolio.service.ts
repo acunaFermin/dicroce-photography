@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { ImagePreview } from '../interfaces/interfaces';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ImagesService } from '../images.service';
+import { Base, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 
 @Injectable({
@@ -123,18 +126,62 @@ export class PortfolioService {
 	eliminatedItems: PortfolioItem[] = [];
 	editatedItems: PortfolioItem[] = [];
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
+	update: EventEmitter<void> = new EventEmitter();
+	urlRemoto: string;
+	urlLocal: string;
 
-	constructor() {}
+	imageFiles = new FormData();
+
+	constructor(
+		private http: HttpClient,
+		private imagesService: ImagesService,
+		private sanitizer: DomSanitizer
+	) {
+		this.urlRemoto = this.imagesService.urlRemoto;
+		this.urlLocal = this.imagesService.urlLocal;
+
+		this.getPortfolioItemsDB();
+	}
+
+	getPortfolioItemsDB() {
+		return (
+			this.http
+				// .get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
+				.get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
+				.subscribe((data) => {
+					this.items.unshift(...data);
+					this.update.emit();
+				})
+		);
+	}
+
+	saveImgFile(imagePreview: ImagePreview) {
+		this.imageFiles.set(
+			imagePreview.id,
+			imagePreview.file,
+			imagePreview.file.name
+		);
+	}
 
 	setImage(imagePreview: ImagePreview) {
+		this.saveImgFile(imagePreview);
+
 		for (let item of this.items) {
-			item.imagen1.id === imagePreview.id
-				? (item.imagen1.style = `background-image: url(${imagePreview.imagePreview.base});`)
-				: item.imagen2.id === imagePreview.id
-				? (item.imagen2.style = `background-image: url(${imagePreview.imagePreview.base});`)
-				: item.imagen3.id === imagePreview.id
-				? (item.imagen3.style = `background-image: url(${imagePreview.imagePreview.base});`)
-				: null;
+			if (item.imagen1.id === imagePreview.id) {
+				item.imagen1.style = `background-image: url("${imagePreview.imagePreview.base}");`;
+				item.imagen1.ext = imagePreview.ext;
+				break;
+			}
+			if (item.imagen2.id === imagePreview.id) {
+				item.imagen2.style = `background-image: url("${imagePreview.imagePreview.base}");`;
+				item.imagen2.ext = imagePreview.ext;
+				break;
+			}
+			if (item.imagen3.id === imagePreview.id) {
+				item.imagen3.style = `background-image: url("${imagePreview.imagePreview.base}");`;
+				item.imagen3.ext = imagePreview.ext;
+				break;
+			}
 
 			item.imagen1.id === imagePreview.id
 				? (item.imagen1.name = '')
@@ -160,22 +207,43 @@ export class PortfolioService {
 		}
 
 		itemDB ? this.saveEditedItem(itemDB) : null;
+
+		console.log(this.items);
 	}
 
 	//imagenes que todavia no existen en la db
 	saveItem(item: PortfolioItem) {
-		this.createdItems.unshift(item);
+		//mando el item por value
+		let itemValue: PortfolioItem = {
+			id: item.id,
+			titulo: item.titulo,
+			link: item.link,
+			imagen1: { ...item.imagen1 },
+			imagen2: { ...item.imagen2 },
+			imagen3: { ...item.imagen3 },
+		};
+
+		this.createdItems.unshift(itemValue);
 		this.notifyChanges();
 	}
 
 	//imagenes que ya existen en la db, pero fueron editadas
 	saveEditedItem(item: PortfolioItem) {
+		//mando el item por value
+		let itemValue: PortfolioItem = {
+			id: item.id,
+			titulo: item.titulo,
+			link: item.link,
+			imagen1: { ...item.imagen1 },
+			imagen2: { ...item.imagen2 },
+			imagen3: { ...item.imagen3 },
+		};
 		//analizo si se quiere editar una imagen que ha sido creada, y que no existe en la db
 		let i = 0;
 		for (let itm of this.createdItems) {
 			if (itm.id === item.id) {
 				//guardo los cambios en el createdItems
-				this.createdItems.splice(i, 1, item);
+				this.createdItems.splice(i, 1, { ...itemValue });
 				this.notifyChanges();
 				return;
 			}
@@ -187,26 +255,35 @@ export class PortfolioService {
 			i = 0;
 			for (let itm of this.editatedItems) {
 				if (itm.id === item.id) {
-					this.editatedItems.splice(i, 1, item);
+					this.editatedItems.splice(i, 1, itemValue);
 					this.notifyChanges();
 					return;
 				}
 				i++;
 			}
 		}
-		this.editatedItems.unshift(item);
+		this.editatedItems.unshift(itemValue);
 		this.notifyChanges();
 	}
 
 	//imagenes que hay que sacar de la db
 	eliminateItem(item: PortfolioItem) {
+		//mando el item por value
+		let itemValue: PortfolioItem = {
+			id: item.id,
+			titulo: item.titulo,
+			link: item.link,
+			imagen1: { ...item.imagen1 },
+			imagen2: { ...item.imagen2 },
+			imagen3: { ...item.imagen3 },
+		};
 		//elimino imagenes creadas
 		if (this.createdItems.length > 0) {
 			let eliminatedCreatedItem: PortfolioItem | null = null;
 
 			this.createdItems = this.createdItems.filter(
-				(itm) => itm.id !== item.id,
-				(eliminatedCreatedItem = item)
+				(itm) => itm.id !== itemValue.id,
+				(eliminatedCreatedItem = itemValue)
 			);
 			this.notifyChanges();
 			if (eliminatedCreatedItem) return;
@@ -214,10 +291,12 @@ export class PortfolioService {
 
 		//elimino imagenes editadas
 		if (this.editatedItems.length > 0) {
-			this.editatedItems = this.editatedItems.filter((itm) => itm.id !== item.id);
+			this.editatedItems = this.editatedItems.filter(
+				(itm) => itm.id !== itemValue.id
+			);
 		}
 
-		this.eliminatedItems.unshift(item);
+		this.eliminatedItems.unshift(itemValue);
 		this.notifyChanges();
 	}
 

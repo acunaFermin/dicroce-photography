@@ -93,6 +93,8 @@ export class ImagesService {
 	imageIndex: number = 0;
 	updateData: EventEmitter<void> = new EventEmitter();
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
+	urlRemoto = 'https://nico.acuna-fermin.dev';
+	urlLocal = 'http://localhost:8999';
 
 	constructor(private http: HttpClient) {}
 
@@ -101,13 +103,16 @@ export class ImagesService {
 	}
 
 	getImagesDB() {
-		return this.http
-			.get<Image[]>('http://localhost:8000/api/portfolio/')
-			.subscribe((data) => {
-				console.log('images service!', data);
-				this.images.unshift(...data);
-				this.updateData.emit();
-			});
+		return (
+			this.http
+				// .get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
+				.get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
+				.subscribe((data) => {
+					console.log('images service!', data);
+					this.images.unshift(...data);
+					this.updateData.emit();
+				})
+		);
 	}
 
 	deleteImagesofPortfolioItem(portfolioItem: PortfolioItem) {

@@ -10,6 +10,6 @@ export class AppComponent {
 	title = 'portfolio-nico';
 
 	constructor(private imagesService: ImagesService) {
-		this.imagesService.getImagesDB();
+		// this.imagesService.getImagesDB();
 	}
 }

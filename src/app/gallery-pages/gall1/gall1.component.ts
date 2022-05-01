@@ -25,6 +25,7 @@ export class Gall1Component implements OnInit {
 		private saveChangesService: SaveChangesService,
 		private route: ActivatedRoute
 	) {
+		this.imageService.getImagesDB();
 		this.testImage = this.imageService.testImages;
 		this.updateData = this.imageService.updateData.subscribe((data) => {
 			this.createGallery();

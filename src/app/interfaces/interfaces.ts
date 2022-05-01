@@ -1,6 +1,7 @@
 export interface Image {
 	id: string;
 	name: string;
+	ext?: string;
 	position: string;
 	gallery: string;
 	style?: string;
@@ -10,6 +11,8 @@ export interface Image {
 
 export interface ImagePreview {
 	imagePreview: Base;
+	ext?: string;
+	file?: any;
 	id: string;
 }
 

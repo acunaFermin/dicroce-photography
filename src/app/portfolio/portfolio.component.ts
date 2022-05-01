@@ -22,7 +22,14 @@ export class PortfolioComponent implements OnInit {
 		this.items = [...this.portfolioService.items];
 
 		//guardo los datos para enviar  la db
-		this.portfolioService.saveItem(newPortfolioItem);
+		this.portfolioService.saveItem({
+			id: newPortfolioItem.id,
+			titulo: newPortfolioItem.titulo,
+			link: newPortfolioItem.link,
+			imagen1: { ...newPortfolioItem.imagen1 },
+			imagen2: { ...newPortfolioItem.imagen2 },
+			imagen3: { ...newPortfolioItem.imagen3 },
+		});
 	}
 
 	deletePortfolioItem(portfolioItem: PortfolioItem) {
