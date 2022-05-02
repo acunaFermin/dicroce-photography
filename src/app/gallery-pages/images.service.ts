@@ -43,6 +43,8 @@ export class ImagesService {
 				.subscribe((data) => {
 					console.log('images service!', data);
 					this.images.unshift(...data);
+					console.log(this.images);
+
 					this.updateData.emit(); //==>gall1
 				})
 		);

@@ -14,7 +14,7 @@ import { selectVH } from './helpers/add-image';
 })
 export class Gall1Component implements OnInit {
 	images: Image[] = [];
-	title: string = '';
+	title!: string;
 	galname: string = '';
 	testImage: Image;
 	updateData!: Subscription;
@@ -26,6 +26,7 @@ export class Gall1Component implements OnInit {
 	) {
 		this.testImage = this.imageService.testImages;
 		this.updateData = this.imageService.updateData.subscribe((data) => {
+			// //obtengo titulo
 			this.createGallery();
 		});
 
@@ -35,27 +36,19 @@ export class Gall1Component implements OnInit {
 	ngOnInit(): void {
 		// obtengo el nombre de la galeria del url
 		this.galname = this.route.snapshot.paramMap.get('galname') || '';
-		// //obtengo titulo
-		this.Title();
+
 		// obtengo imagenes que coincidan con la galeria
 		this.createGallery();
 	}
 
-	Title() {
-		const secciones = this.portfolioService.items;
-
-		for (let item of secciones) {
-			if (item.link === `/gallery/${this.galname}`) {
-				this.title = item.titulo;
-				break;
-			}
-		}
-	}
-
 	createGallery(imgPreview?: ImagePreview) {
+		//filtro las imagenes que son de la propia galleria
 		let images = this.imageService.images.filter(
 			(img) => img.gallery === this.galname
 		);
+
+		//extraigo el titulo
+		images[0] ? (this.title = images[0].title || '') : null;
 
 		images.forEach((image) => {
 			if (image.ext) {
@@ -72,6 +65,7 @@ export class Gall1Component implements OnInit {
 			if (image.id === imgPreview.id) {
 				image.style = `background-image: url(${imgPreview.imagePreview.base});`;
 				image.ext = imgPreview.ext;
+				image.name = '';
 				//guardo imagen editada para enviar a db
 				this.imageService.saveEditedImage(image);
 			}
@@ -98,6 +92,14 @@ export class Gall1Component implements OnInit {
         box-shadow: inset 0 0 2px black;`;
 			this.testImage.gallery = this.galname;
 			this.testImage.index = this.imageService.setIndexOfNewImage();
+
+			//extraigo el titulo de la galeria y sa la pongo a la imagen
+			for (let item of this.portfolioService.items) {
+				if (item.link === `/gallery/${this.galname}`) {
+					this.testImage.title = item.titulo;
+					break;
+				}
+			}
 
 			//guardo los cambios en el array local
 			this.imageService.images.unshift({ ...this.testImage });

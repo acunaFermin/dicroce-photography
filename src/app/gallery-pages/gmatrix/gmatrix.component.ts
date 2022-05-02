@@ -32,9 +32,18 @@ export class GmatrixComponent implements OnInit, OnChanges {
 	createGallery() {
 		for (let img of this.images) {
 			if (img.style) continue;
+			console.log('Hola Mundo!');
 
 			img.name !== 'add-image.svg'
 				? (img.style = `background-image: url("assets/images/${img.name}");`)
+				: null;
+			img.name === 'add-image.svg'
+				? (img.style = `
+				    background-image: url("assets/icons/add-image.svg");
+				    background-size: 20%;
+				    background-repeat: no-repeat;
+				    background-position: center;
+				    box-shadow: inset 0 0 2px black;`)
 				: null;
 		}
 	}
