@@ -1,23 +1,29 @@
 <div class="container">
- <h1>Portfolio - {{ titulo }}</h1>
- <app-save-changes></app-save-changes>
- <app-add-item
-  [item]="'gallery'"
-  [galname]="galname"
-  (addImage)="addImg()"
- ></app-add-item>
- <div class="container-gallery">
-  <div
-   *ngFor="let image of images"
-   [ngClass]="image.position"
-   [style]="image.style"
-  >
-   <app-buttons
-    [image]="image"
-    (preview)="preview($event)"
-    (deleteImage)="deleteImg($event)"
-   >
-   </app-buttons>
-  </div>
- </div>
+	<h1>Portfolio - {{ titulo }}</h1>
+
+	<!-- guardar cambios btn -->
+	<app-save-changes></app-save-changes>
+
+	<!-- agregar nuevo item btn -->
+	<app-add-item
+		[item]="'gallery'"
+		[galname]="galname"
+		(addImage)="addImg()"
+	></app-add-item>
+
+	<div class="container-gallery">
+		<div
+			*ngFor="let image of images"
+			[ngClass]="image.position"
+			[style]="image.style"
+		>
+			<!-- botones de edicion -->
+			<app-buttons
+				[image]="image"
+				(preview)="preview($event)"
+				(deleteImage)="deleteImg($event)"
+			>
+			</app-buttons>
+		</div>
+	</div>
 </div>

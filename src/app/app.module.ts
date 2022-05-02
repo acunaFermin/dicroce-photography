@@ -10,7 +10,6 @@ import { GalleryModule } from './gallery-pages/gallery.module';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ImagesService } from './images.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -26,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 		HttpClientModule,
 	],
 	exports: [],
-	providers: [ImagesService],
+	providers: [],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Subscriber } from 'rxjs';
-import { ImagesService } from '../images.service';
+import { Injectable } from '@angular/core';
+import { ImagesService } from '../gallery-pages/images.service';
+import { ImagePreview } from '../interfaces/interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
 import {
 	SavedChanges,
@@ -16,7 +16,7 @@ export class SaveChangesService {
 	savePortfolioItems!: SavePortfolioItems;
 	saveGalleryImages!: SaveGalleryImages;
 	savedChanges!: SavedChanges;
-	imgFiles: any;
+	imgFiles = new FormData();
 	changesStatus: boolean = false;
 	urlRemoto: string;
 	urlLocal: string;
@@ -34,6 +34,14 @@ export class SaveChangesService {
 		this.portfolioService.changesStatus.subscribe((data) => {
 			this.changesStatus = data;
 		});
+
+		this.portfolioService.imgFiles.subscribe((imgPreview) => {
+			this.saveImgFile(imgPreview);
+		});
+
+		this.ImagesService.imgFile.subscribe((imgPreview) => {
+			this.saveImgFile(imgPreview);
+		});
 	}
 
 	clearSendedItems() {
@@ -43,8 +51,13 @@ export class SaveChangesService {
 		this.ImagesService.createdImages = [];
 		this.ImagesService.editatedImages = [];
 		this.ImagesService.eliminatedImages = [];
-
 		this.changesStatus = false;
+
+		//mirarr:
+		//https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
+		for (let key of this.imgFiles.keys()) {
+			this.imgFiles.delete(key);
+		}
 	}
 
 	eliminatedItemsId() {
@@ -72,6 +85,14 @@ export class SaveChangesService {
 			item.imagen2.style = '';
 			item.imagen3.style = '';
 		});
+
+		this.saveGalleryImages.createdImages.map((item) => {
+			item.style = '';
+		});
+
+		this.saveGalleryImages.editatedImages.map((item) => {
+			item.style = '';
+		});
 	}
 
 	callSavedItems() {
@@ -89,29 +110,29 @@ export class SaveChangesService {
 
 		this.clearBase64();
 
-		console.log('Hola Mundo!', this.savePortfolioItems);
-
 		this.savedChanges = {
 			saveGalleryImages: this.saveGalleryImages,
 			savePortfolioItems: this.savePortfolioItems,
 		};
 
-		this.imgFiles = this.portfolioService.imageFiles;
-
-		this.clearSendedItems();
-
 		this.sendItems();
 		this.sendImgFiles();
+		this.clearSendedItems();
+	}
+
+	//guardar file en formData
+	saveImgFile(imagePreview: ImagePreview) {
+		this.imgFiles.set(imagePreview.id, imagePreview.file, imagePreview.file.name);
+
+		console.log(this.imgFiles.forEach(console.log));
 	}
 
 	sendItems() {
 		return (
 			this.http
-				// .post(`${this.urlLocal}/api/portfolio/`, this.savedChanges)
-				.post(`${this.urlRemoto}/api/portfolio/`, this.savedChanges)
-				.subscribe((data) => {
-					console.log('save-changes.service', data);
-				})
+				.post(`${this.urlLocal}/api/portfolio/`, this.savedChanges)
+				// .post(`${this.urlRemoto}/api/portfolio/`, this.savedChanges)
+				.subscribe((data) => console.log('respuesta items enviados', data))
 		);
 	}
 
@@ -120,7 +141,7 @@ export class SaveChangesService {
 			this.http
 				// .post(`${this.urlLocal}/api/upload-image/`, this.imgFiles)
 				.post(`${this.urlRemoto}/api/upload-image/`, this.imgFiles)
-				.subscribe(console.log)
+				.subscribe((data) => console.log('sendFiles', data))
 		);
 	}
 }

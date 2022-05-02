@@ -1,121 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImagesService } from '../images.service';
-import { Base, ImagePreview } from '../interfaces/interfaces';
+import { ImagesService } from '../gallery-pages/images.service';
+import { ImagePreview } from '../interfaces/interfaces';
+import { SaveChangesService } from '../save-changes/save-changes.service';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
-
+import { hardCodeItems, hardCode_testItem } from './items-hard-code';
 @Injectable({
 	providedIn: 'root',
 })
 export class PortfolioService {
-	items: PortfolioItem[] = [
-		{
-			id: '1',
-			titulo: 'Retrato Beauty',
-			link: '/gallery/retratobeauty',
-			imagen1: {
-				id: '17',
-				name: '1.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen2: {
-				id: '18',
-				name: '2.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen3: {
-				id: '19',
-				name: '3.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-		},
-		{
-			id: '2',
-			titulo: 'Fine Art',
-			link: '/gallery/fineart',
-			imagen1: {
-				id: '20',
-				name: '4.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen2: {
-				id: '21',
-				name: '5.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen3: {
-				id: '22',
-				name: '6.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-		},
-		{
-			id: '3',
-			titulo: 'Retrato Personalizado',
-			link: '/gallery/retratopersonalizado',
-			imagen1: {
-				id: '23',
-				name: '7.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen2: {
-				id: '24',
-				name: '8.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-			imagen3: {
-				id: '25',
-				name: '9.jpg',
-				gallery: 'images',
-				position: '',
-				index: 0,
-			},
-		},
-	];
+	items: PortfolioItem[] = hardCodeItems;
 
-	private _testItem: PortfolioItem = {
-		id: 'id',
-		titulo: 'Editar titulo',
-		link: null,
-		imagen1: {
-			id: '',
-			name: 'add-image.svg',
-			gallery: 'icons',
-			position: '',
-			index: 0,
-		},
-		imagen2: {
-			id: '',
-			name: 'add-image.svg',
-			gallery: 'icons',
-			position: '',
-			index: 0,
-		},
-		imagen3: {
-			id: '',
-			name: 'add-image.svg',
-			gallery: 'icons',
-			position: '',
-			index: 0,
-		},
-	};
+	private _testItem: PortfolioItem = hardCode_testItem;
 
 	get testItem() {
 		return { ...this._testItem };
@@ -127,27 +24,19 @@ export class PortfolioService {
 	editatedItems: PortfolioItem[] = [];
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
 	update: EventEmitter<void> = new EventEmitter();
-	urlRemoto: string;
-	urlLocal: string;
+	imgFiles: EventEmitter<ImagePreview> = new EventEmitter();
+	urlRemoto = 'https://nico.acuna-fermin.dev';
+	urlLocal = 'http://localhost:8999';
 
-	imageFiles = new FormData();
-
-	constructor(
-		private http: HttpClient,
-		private imagesService: ImagesService,
-		private sanitizer: DomSanitizer
-	) {
-		this.urlRemoto = this.imagesService.urlRemoto;
-		this.urlLocal = this.imagesService.urlLocal;
-
+	constructor(private http: HttpClient) {
 		this.getPortfolioItemsDB();
 	}
 
 	getPortfolioItemsDB() {
 		return (
 			this.http
-				// .get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
-				.get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
+				.get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
+				// .get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
 				.subscribe((data) => {
 					this.items.unshift(...data);
 					this.update.emit();
@@ -155,17 +44,7 @@ export class PortfolioService {
 		);
 	}
 
-	saveImgFile(imagePreview: ImagePreview) {
-		this.imageFiles.set(
-			imagePreview.id,
-			imagePreview.file,
-			imagePreview.file.name
-		);
-	}
-
 	setImage(imagePreview: ImagePreview) {
-		this.saveImgFile(imagePreview);
-
 		for (let item of this.items) {
 			if (item.imagen1.id === imagePreview.id) {
 				item.imagen1.style = `background-image: url("${imagePreview.imagePreview.base}");`;
@@ -208,7 +87,8 @@ export class PortfolioService {
 
 		itemDB ? this.saveEditedItem(itemDB) : null;
 
-		console.log(this.items);
+		//enviar a save-changes-service formData
+		this.imgFiles.emit(imagePreview);
 	}
 
 	//imagenes que todavia no existen en la db

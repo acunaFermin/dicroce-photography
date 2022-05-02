@@ -1,10 +1,10 @@
 <!-- *ngIf="this.saveChangesService.changesStatus" -->
 
-<div class="title container">
+<div *ngIf="this.saveChangesService.changesStatus" class="title container">
 	<h3>Cambios sin guardar</h3>
 </div>
 
-<div class="container">
+<div *ngIf="this.saveChangesService.changesStatus" class="container">
 	<div (click)="saveChanges()" class="save-changes">
 		<img class="save-img" src="assets/icons/save.svg" />
 	</div>

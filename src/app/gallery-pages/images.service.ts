@@ -1,90 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Image } from './interfaces/interfaces';
-import { PortfolioItem } from './portfolio/interfaces/portfolio-item.interfaces';
-
+import { Image, ImagePreview } from '../interfaces/interfaces';
+import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
+import { hardCodeImages, hardCode_testImages } from './hard-code-images';
 @Injectable({
 	providedIn: 'root',
 })
 export class ImagesService {
 	//respuesta del futuro backend
-	images: Image[] = [
-		{
-			id: '2',
-			name: '2.jpg',
-			gallery: 'retratobeauty',
-			position: 'vertical',
-			preview: null,
-			index: 1,
-		},
-		{
-			id: '1',
-			name: '1.jpg',
-			gallery: 'retratobeauty',
-			position: 'vertical',
-			preview: null,
-			index: 2,
-		},
-
-		{
-			id: '3',
-			name: '3.jpg',
-			gallery: 'retratobeauty',
-			position: 'horizontal',
-			preview: null,
-			index: 3,
-		},
-		{
-			id: '4',
-			name: '4.jpg',
-			gallery: 'fineart',
-			position: 'horizontal',
-			preview: null,
-			index: 4,
-		},
-		{
-			id: '5',
-			name: '5.jpg',
-			gallery: 'fineart',
-			position: 'horizontal',
-			preview: null,
-			index: 5,
-		},
-
-		{
-			id: '6',
-			name: '6.jpg',
-			gallery: 'fineart',
-			position: 'vertical',
-			preview: null,
-			index: 6,
-		},
-		{
-			id: '7',
-			name: '7.jpg',
-			gallery: 'retratopersonalizado',
-			position: 'horizontal',
-			preview: null,
-			index: 7,
-		},
-
-		{
-			id: '9',
-			name: '9.jpg',
-			gallery: 'retratopersonalizado',
-			position: 'horizontal',
-			preview: null,
-			index: 8,
-		},
-	];
-
-	private _testImages: Image = {
-		id: '1',
-		name: 'add-image.svg',
-		gallery: 'beauty',
-		position: 'vertical',
-		index: 0,
-	};
+	images: Image[] = hardCodeImages;
+	private _testImages: Image = hardCode_testImages;
 
 	//elementos a enviar si se deciden guardar los cambios
 	createdImages: Image[] = [];
@@ -93,24 +18,32 @@ export class ImagesService {
 	imageIndex: number = 0;
 	updateData: EventEmitter<void> = new EventEmitter();
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
+	imgFile: EventEmitter<ImagePreview> = new EventEmitter();
+	urlFileSystem = 'https://acuna-fermin.dev/nico-server/dist/uploads';
 	urlRemoto = 'https://nico.acuna-fermin.dev';
 	urlLocal = 'http://localhost:8999';
 
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) {
+		this.getImagesDB();
+	}
 
 	get testImages() {
 		return { ...this._testImages };
 	}
 
+	sendImageFile(imagePreview: ImagePreview) {
+		this.imgFile.emit(imagePreview);
+	}
+
 	getImagesDB() {
 		return (
 			this.http
-				// .get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
-				.get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
+				.get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
+				// .get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
 				.subscribe((data) => {
 					console.log('images service!', data);
 					this.images.unshift(...data);
-					this.updateData.emit();
+					this.updateData.emit(); //==>gall1
 				})
 		);
 	}
@@ -142,7 +75,9 @@ export class ImagesService {
 
 	//imagenes que todavia no existen en la db
 	saveImage(image: Image) {
-		this.createdImages.unshift(image);
+		let imageValue = { ...image };
+
+		this.createdImages.unshift(imageValue);
 		this.notifyChanges();
 
 		console.log(this.createdImages);
@@ -150,12 +85,13 @@ export class ImagesService {
 
 	//imagenes que ya existen en la db, pero fueron editadas
 	saveEditedImage(image: Image) {
+		let imageValue = { ...image };
 		//analizo si se quiere editar una imagen que ha sido creada, y que no existe en la db
 		let i = 0;
 		for (let img of this.createdImages) {
-			if (img.id === image.id) {
+			if (img.id === imageValue.id) {
 				//guardo los cambios en el createdImages
-				this.createdImages.splice(i, 1, image);
+				this.createdImages.splice(i, 1, imageValue);
 				this.notifyChanges();
 
 				return;
@@ -167,8 +103,8 @@ export class ImagesService {
 		if (this.editatedImages.length > 0) {
 			i = 0;
 			for (let img of this.editatedImages) {
-				if (img.id === image.id) {
-					this.editatedImages.splice(i, 1, image);
+				if (img.id === imageValue.id) {
+					this.editatedImages.splice(i, 1, imageValue);
 					this.notifyChanges();
 
 					return;
@@ -176,18 +112,20 @@ export class ImagesService {
 				i++;
 			}
 		}
-		this.editatedImages.unshift(image);
+		this.editatedImages.unshift(imageValue);
 		this.notifyChanges();
 	}
 
 	//imagenes que hay que sacar de la db
 	eliminateImage(image: Image) {
+		let imageValue = { ...image };
+
 		//elimino imagenes creadas
 		if (this.createdImages.length > 0) {
 			let eliminatedCreatedImage: Image | null = null;
 			this.createdImages = this.createdImages.filter(
-				(img) => img.id !== image.id,
-				(eliminatedCreatedImage = image)
+				(img) => img.id !== imageValue.id,
+				(eliminatedCreatedImage = imageValue)
 			);
 
 			if (eliminatedCreatedImage) return;
@@ -196,13 +134,14 @@ export class ImagesService {
 		//elimino imagenes editadas
 		if (this.editatedImages.length > 0) {
 			this.editatedImages = this.editatedImages.filter(
-				(img) => img.id !== image.id
+				(img) => img.id !== imageValue.id
 			);
 		}
 
-		this.eliminatedImages.unshift(image);
+		this.eliminatedImages.unshift(imageValue);
 		this.notifyChanges();
 	}
+
 	//notifico que hay cambios
 	notifyChanges() {
 		this.createdImages.length > 0

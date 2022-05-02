@@ -9,7 +9,7 @@ import {
 	SimpleChanges,
 } from '@angular/core';
 import { confirmDelete } from './helpers/delete-item';
-import { ImagesService } from 'src/app/images.service';
+import { ImagesService } from 'src/app/gallery-pages/images.service';
 import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
@@ -27,7 +27,7 @@ export class ItemComponent implements OnInit, OnChanges {
 
 	preventRouter: boolean = false;
 	imagePreview!: ImagePreview;
-	urlFileSystem = 'https://acuna-fermin.dev/nico-server/dist/uploads';
+	urlFileSystem: string;
 	constructor(
 		private portfolioService: PortfolioService,
 		private imagesService: ImagesService
@@ -37,6 +37,8 @@ export class ItemComponent implements OnInit, OnChanges {
 
 			this.createItemPortfolio();
 		});
+
+		this.urlFileSystem = this.imagesService.urlFileSystem;
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -137,7 +139,18 @@ export class ItemComponent implements OnInit, OnChanges {
 			portfolioItem.titulo,
 			this.imagesService.images
 		) //almaceno en db los cambios
-			.then((data) => this.portfolioService.saveEditedItem(portfolioItem))
+			.then((data) => {
+				this.portfolioService.saveEditedItem(portfolioItem);
+				//guardar cambios en las imagenes de la galleria
+				for (let image of this.imagesService.images) {
+					if (
+						image.gallery ===
+						portfolioItem.titulo.replace(/[" "]/gi, '').toLowerCase()
+					) {
+						this.imagesService.saveEditedImage(image);
+					}
+				}
+			})
 			.catch((err) => console.warn('El titulo ya existe!'));
 	}
 }

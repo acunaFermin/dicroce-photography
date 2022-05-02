@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { generateUUID } from 'src/app/helpers/uuid';
-import { ImagesService } from 'src/app/images.service';
+import { ImagesService } from 'src/app/gallery-pages/images.service';
 import { Image, ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioService } from 'src/app/portfolio/portfolio.service';
-import { SaveChangesService } from 'src/app/save-changes/save-changes.service';
 import { selectVH } from './helpers/add-image';
 
 @Component({
@@ -19,27 +18,26 @@ export class Gall1Component implements OnInit {
 	galname: string = '';
 	testImage: Image;
 	updateData!: Subscription;
+	urlFileSystem: string;
 	constructor(
 		private imageService: ImagesService,
 		private portfolioService: PortfolioService,
-		private saveChangesService: SaveChangesService,
 		private route: ActivatedRoute
 	) {
-		this.imageService.getImagesDB();
 		this.testImage = this.imageService.testImages;
 		this.updateData = this.imageService.updateData.subscribe((data) => {
 			this.createGallery();
 		});
+
+		this.urlFileSystem = this.imageService.urlFileSystem;
 	}
 
 	ngOnInit(): void {
-		//obtengo el nombre de la galeria del url
+		// obtengo el nombre de la galeria del url
 		this.galname = this.route.snapshot.paramMap.get('galname') || '';
-
-		//obtengo titulo
+		// //obtengo titulo
 		this.Title();
-
-		//obtengo imagenes que coincidan con la galeria
+		// obtengo imagenes que coincidan con la galeria
 		this.createGallery();
 	}
 
@@ -59,21 +57,30 @@ export class Gall1Component implements OnInit {
 			(img) => img.gallery === this.galname
 		);
 
-		this.images = images;
-
-		if (!imgPreview) return;
-
 		images.forEach((image) => {
-			if (image.id === imgPreview.id) {
-				// image.preview = imgPreview.imagePreview;
-				image.style = `background-image: url(${imgPreview.imagePreview.base});`;
-
-				//guardo imagen editada para enviar a db
-				this.imageService.saveEditedImage({ ...image });
+			if (image.ext) {
+				image.style = `background-image: url("${this.urlFileSystem}/${image.id}.${image.ext}");`;
 			}
 		});
 
 		this.images = images;
+
+		if (!imgPreview) return;
+
+		//previsualizacion con imagenes en base64
+		images.forEach((image) => {
+			if (image.id === imgPreview.id) {
+				image.style = `background-image: url(${imgPreview.imagePreview.base});`;
+				image.ext = imgPreview.ext;
+				//guardo imagen editada para enviar a db
+				this.imageService.saveEditedImage(image);
+			}
+		});
+
+		this.images = images;
+
+		//envio imagenPreview al form data del saveChangesService
+		this.imageService.sendImageFile(imgPreview);
 	}
 
 	addImage() {
