@@ -51,6 +51,11 @@ export class Gall1Component implements OnInit {
 		images[0] ? (this.title = images[0].title || '') : null;
 
 		images.forEach((image) => {
+			if (image.preview) {
+				console.log('image preview');
+
+				return;
+			}
 			if (image.ext) {
 				image.style = `background-image: url("${this.urlFileSystem}/${image.id}.${image.ext}");`;
 			}
@@ -63,6 +68,7 @@ export class Gall1Component implements OnInit {
 		//previsualizacion con imagenes en base64
 		images.forEach((image) => {
 			if (image.id === imgPreview.id) {
+				image.preview = 'preview';
 				image.style = `background-image: url(${imgPreview.imagePreview.base});`;
 				image.ext = imgPreview.ext;
 				image.name = '';

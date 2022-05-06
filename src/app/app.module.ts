@@ -11,6 +11,8 @@ import { GalleryModule } from './gallery-pages/gallery.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { SpinnerModule } from './spinner/spinner.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -23,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 		BrowserAnimationsModule,
 		MatFormFieldModule,
 		HttpClientModule,
+		SpinnerModule,
 	],
 	exports: [],
 	providers: [],

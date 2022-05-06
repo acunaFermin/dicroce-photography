@@ -47,7 +47,6 @@ export class GmatrixComponent implements OnInit, OnChanges {
 				: null;
 		}
 	}
-
 	ngOnInit(): void {
 		this.createGallery();
 	}

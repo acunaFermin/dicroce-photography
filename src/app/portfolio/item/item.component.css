@@ -16,9 +16,7 @@
 	transition: all 0.2s linear;
 }
 
-.container-item:nth-child(1):hover,
-.container-item:nth-child(2):hover,
-.container-item:nth-child(3):hover {
+.container-item:nth-child(n):hover {
 	filter: grayscale(0%);
 }
 

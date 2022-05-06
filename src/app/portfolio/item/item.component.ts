@@ -33,8 +33,6 @@ export class ItemComponent implements OnInit, OnChanges {
 		private imagesService: ImagesService
 	) {
 		this.portfolioService.update.subscribe((data) => {
-			console.log('Hola Mundo!', this.items);
-
 			this.createItemPortfolio();
 		});
 
@@ -120,16 +118,14 @@ export class ItemComponent implements OnInit, OnChanges {
 	}
 
 	deletePortfolioItem(portfolioItem: PortfolioItem) {
-		confirmDelete(portfolioItem)
-			.then((eliminar) => {
-				if (eliminar) {
-					//elimino el prtfolioItem y las imagenes que tenga dentro
-					this.imagesService.deleteImagesofPortfolioItem(portfolioItem);
-					this.portfolioItemToDelete.emit(portfolioItem);
-					//almaceno en db los cambios
-				}
-			})
-			.catch((err) => console.log('Hola Mundo!'));
+		confirmDelete(portfolioItem).then((eliminar) => {
+			if (eliminar) {
+				//elimino el prtfolioItem y las imagenes que tenga dentro
+				this.imagesService.deleteImagesofPortfolioItem(portfolioItem);
+				this.portfolioItemToDelete.emit(portfolioItem);
+				//almaceno en db los cambios
+			}
+		});
 	}
 
 	editPortfolioItem(portfolioItem: PortfolioItem) {

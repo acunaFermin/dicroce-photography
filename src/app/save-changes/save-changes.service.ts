@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ImagesService } from '../gallery-pages/images.service';
 import { ImagePreview } from '../interfaces/interfaces';
 import { PortfolioService } from '../portfolio/portfolio.service';
@@ -20,6 +20,8 @@ export class SaveChangesService {
 	changesStatus: boolean = false;
 	urlRemoto: string;
 	urlLocal: string;
+	spinner: EventEmitter<boolean> = new EventEmitter();
+
 	constructor(
 		private ImagesService: ImagesService,
 		private portfolioService: PortfolioService,
@@ -86,16 +88,19 @@ export class SaveChangesService {
 			item.imagen3.style = '';
 		});
 
-		this.saveGalleryImages.createdImages.map((item) => {
-			item.style = '';
+		this.saveGalleryImages.createdImages.map((image) => {
+			image.style = '';
+			image.preview = null;
 		});
 
-		this.saveGalleryImages.editatedImages.map((item) => {
-			item.style = '';
+		this.saveGalleryImages.editatedImages.map((image) => {
+			image.style = '';
+			image.preview = null;
 		});
 	}
 
 	callSavedItems() {
+		this.spinner.emit(true);
 		this.savePortfolioItems = {
 			createdItems: [...this.portfolioService.createdItems],
 			editatedItems: [...this.portfolioService.editatedItems],
@@ -123,25 +128,19 @@ export class SaveChangesService {
 	//guardar file en formData
 	saveImgFile(imagePreview: ImagePreview) {
 		this.imgFiles.set(imagePreview.id, imagePreview.file, imagePreview.file.name);
-
-		console.log(this.imgFiles.forEach(console.log));
 	}
 
 	sendItems() {
-		return (
-			this.http
-				.post(`${this.urlLocal}/api/portfolio/`, this.savedChanges)
-				// .post(`${this.urlRemoto}/api/portfolio/`, this.savedChanges)
-				.subscribe((data) => console.log('respuesta items enviados', data))
-		);
+		this.http
+			// .post(`${this.urlLocal}/api/portfolio/`, this.savedChanges)
+			.post(`${this.urlRemoto}/api/portfolio/`, this.savedChanges)
+			.subscribe();
 	}
 
 	sendImgFiles() {
-		return (
-			this.http
-				// .post(`${this.urlLocal}/api/upload-image/`, this.imgFiles)
-				.post(`${this.urlRemoto}/api/upload-image/`, this.imgFiles)
-				.subscribe((data) => console.log('sendFiles', data))
-		);
+		this.http
+			// .post(`${this.urlLocal}/api/upload-image/`, this.imgFiles)
+			.post(`${this.urlRemoto}/api/upload-image/`, this.imgFiles)
+			.subscribe((data) => this.spinner.emit(false));
 	}
 }

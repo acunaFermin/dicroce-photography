@@ -5,9 +5,9 @@ import { SaveChangesService } from './save-changes.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
- declarations: [SaveChangesComponent],
- exports: [SaveChangesComponent],
- imports: [CommonModule, HttpClientModule],
- providers: [SaveChangesService],
+	declarations: [SaveChangesComponent],
+	exports: [SaveChangesComponent],
+	imports: [CommonModule, HttpClientModule],
+	providers: [SaveChangesService],
 })
 export class SaveChangesModule {}

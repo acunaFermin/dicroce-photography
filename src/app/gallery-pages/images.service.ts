@@ -38,12 +38,10 @@ export class ImagesService {
 	getImagesDB() {
 		return (
 			this.http
-				.get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
-				// .get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
+				// .get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
+				.get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
 				.subscribe((data) => {
-					console.log('images service!', data);
 					this.images.unshift(...data);
-					console.log(this.images);
 
 					this.updateData.emit(); //==>gall1
 				})
@@ -81,8 +79,6 @@ export class ImagesService {
 
 		this.createdImages.unshift(imageValue);
 		this.notifyChanges();
-
-		console.log(this.createdImages);
 	}
 
 	//imagenes que ya existen en la db, pero fueron editadas

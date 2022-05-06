@@ -35,8 +35,8 @@ export class PortfolioService {
 	getPortfolioItemsDB() {
 		return (
 			this.http
-				.get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
-				// .get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
+				// .get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
+				.get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
 				.subscribe((data) => {
 					this.items.unshift(...data);
 					this.update.emit();
