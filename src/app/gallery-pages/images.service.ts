@@ -3,6 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Image, ImagePreview } from '../interfaces/interfaces';
 import { PortfolioItem } from '../portfolio/interfaces/portfolio-item.interfaces';
 import { hardCodeImages, hardCode_testImages } from './hard-code-images';
+import { environment } from 'src/environments/environment';
 @Injectable({
 	providedIn: 'root',
 })
@@ -19,8 +20,8 @@ export class ImagesService {
 	updateData: EventEmitter<void> = new EventEmitter();
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
 	imgFile: EventEmitter<ImagePreview> = new EventEmitter();
-	urlFileSystem = 'https://acuna-fermin.dev/nico-server/dist/uploads';
-	urlRemoto = 'https://nico.acuna-fermin.dev';
+	urlFileSystem = `${environment.url_images}/nico-server/dist/uploads`;
+	private _url = environment.url_base;
 	urlLocal = 'http://localhost:8999';
 
 	constructor(private http: HttpClient) {
@@ -39,7 +40,7 @@ export class ImagesService {
 		return (
 			this.http
 				// .get<Image[]>(`${this.urlLocal}/api/portfolio/gallery-images`)
-				.get<Image[]>(`${this.urlRemoto}/api/portfolio/gallery-images`)
+				.get<Image[]>(`${this._url}/api/portfolio/gallery-images`)
 				.subscribe((data) => {
 					this.images.unshift(...data);
 

@@ -6,6 +6,7 @@ import { ImagePreview } from '../interfaces/interfaces';
 import { SaveChangesService } from '../save-changes/save-changes.service';
 import { PortfolioItem } from './interfaces/portfolio-item.interfaces';
 import { hardCodeItems, hardCode_testItem } from './items-hard-code';
+import { environment } from 'src/environments/environment';
 @Injectable({
 	providedIn: 'root',
 })
@@ -25,8 +26,7 @@ export class PortfolioService {
 	changesStatus: EventEmitter<boolean> = new EventEmitter();
 	update: EventEmitter<void> = new EventEmitter();
 	imgFiles: EventEmitter<ImagePreview> = new EventEmitter();
-	urlRemoto = 'https://nico.acuna-fermin.dev';
-	urlLocal = 'http://localhost:8999';
+	private _url = environment.url_base;
 
 	constructor(private http: HttpClient) {
 		this.getPortfolioItemsDB();
@@ -36,7 +36,7 @@ export class PortfolioService {
 		return (
 			this.http
 				// .get<PortfolioItem[]>(`${this.urlLocal}/api/portfolio/portfolio-images`)
-				.get<PortfolioItem[]>(`${this.urlRemoto}/api/portfolio/portfolio-images`)
+				.get<PortfolioItem[]>(`${this._url}/api/portfolio/portfolio-images`)
 				.subscribe((data) => {
 					this.items.unshift(...data);
 					this.update.emit();

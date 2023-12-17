@@ -14,6 +14,7 @@ import { ImagePreview } from 'src/app/interfaces/interfaces';
 import { PortfolioItem } from '../interfaces/portfolio-item.interfaces';
 import { PortfolioService } from '../portfolio.service';
 import { changeTitle } from './helpers/edit-item';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-item',
@@ -30,7 +31,8 @@ export class ItemComponent implements OnInit, OnChanges {
 	urlFileSystem: string;
 	constructor(
 		private portfolioService: PortfolioService,
-		private imagesService: ImagesService
+		private imagesService: ImagesService,
+		private router: Router,
 	) {
 		this.portfolioService.update.subscribe((data) => {
 			this.createItemPortfolio();
@@ -47,12 +49,18 @@ export class ItemComponent implements OnInit, OnChanges {
 		this.createItemPortfolio();
 	}
 
-	@HostListener('click', ['$event'])
-	@HostListener('touchstart', ['$event'])
-	onClick(e: any) {
-		let target = [e.target.id, e.path[3].id, e.path[2].id];
+	// @HostListener('click', ['$event'])
+	// @HostListener('touchstart', ['$event'])
+	// onClick(e: any) {
+	// 	let target = [e.target.id, e.path[3].id, e.path[2].id];
 
-		this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
+	// 	this.preventRouter = !target.join('').match(new RegExp('edit-btn'));
+	// }
+
+	navigate(link: string | null){
+		console.log({link})
+		if(link)
+		this.router.navigateByUrl(link)
 	}
 
 	createItemPortfolio() {

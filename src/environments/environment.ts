@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // url_base: 'http://localhost:8999',
+  url_base: 'https://nico.lodevicente.com',
+  url_images: 'https://lodevicente.com'
 };
 
 /*
@@ -12,5 +15,7 @@ export const environment = {
  *
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
+ * 
+ * ng build --base-href="./"
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

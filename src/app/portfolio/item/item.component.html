@@ -13,6 +13,7 @@
         ></app-buttons>
       </span>
     </div>
+
     <div class="back" [style]="item.imagen2.style">
       <span class="edit-btn" id="edit-btn-2">
         <app-buttons
@@ -22,6 +23,7 @@
         ></app-buttons>
       </span>
     </div>
+
     <div class="back" [style]="item.imagen3.style">
       <span class="edit-btn" id="edit-btn-3">
         <app-buttons
@@ -31,8 +33,10 @@
         ></app-buttons>
       </span>
     </div>
-    <div class="item-name" [routerLink]="preventRouter ? item.link : null">
-      <h2>{{ item.titulo }}</h2>
+
+    <div class="item-name">
+      <h2 (click)="navigate(item.link)">{{ item.titulo }}</h2>
+    
       <span class="edit-title" id="edit-btn-title">
         <app-buttons
           [portfolioItem]="item"
@@ -42,5 +46,6 @@
         ></app-buttons>
       </span>
     </div>
+    
   </div>
 </div>

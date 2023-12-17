@@ -8,6 +8,7 @@ import {
 	SaveGalleryImages,
 	SavePortfolioItems,
 } from './interfaces';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,8 +19,7 @@ export class SaveChangesService {
 	savedChanges!: SavedChanges;
 	imgFiles = new FormData();
 	changesStatus: boolean = false;
-	urlRemoto: string;
-	urlLocal: string;
+	private _url: string = environment.url_base;
 	spinner: EventEmitter<boolean> = new EventEmitter();
 
 	constructor(
@@ -27,8 +27,7 @@ export class SaveChangesService {
 		private portfolioService: PortfolioService,
 		private http: HttpClient
 	) {
-		this.urlRemoto = this.ImagesService.urlRemoto;
-		this.urlLocal = this.ImagesService.urlLocal;
+		// this.urlLocal = this.ImagesService.urlLocal;
 
 		this.ImagesService.changesStatus.subscribe((data) => {
 			this.changesStatus = data;
@@ -133,14 +132,14 @@ export class SaveChangesService {
 	sendItems() {
 		this.http
 			// .post(`${this.urlLocal}/api/portfolio/`, this.savedChanges)
-			.post(`${this.urlRemoto}/api/portfolio/`, this.savedChanges)
+			.post(`${this._url}/api/portfolio/`, this.savedChanges)
 			.subscribe();
 	}
 
 	sendImgFiles() {
 		this.http
 			// .post(`${this.urlLocal}/api/upload-image/`, this.imgFiles)
-			.post(`${this.urlRemoto}/api/upload-image/`, this.imgFiles)
+			.post(`${this._url}/api/upload-image`, this.imgFiles)
 			.subscribe((data) => this.spinner.emit(false));
 	}
 }
